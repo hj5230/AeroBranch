@@ -8,12 +8,12 @@ interface Props {
 }
 
 interface State {
-  repo: number | undefined
+  repo: number | null
 }
 
 class Navbar extends React.Component<Props, State> {
   state: State = {
-    repo: undefined
+    repo: null
   }
 
   userPopover = (

@@ -2,20 +2,31 @@ import React from 'react'
 import { Row, Button, Drawer, Spin, Popover } from 'antd'
 import style from '../assets/index.module.less'
 
+type RepoData = {
+  key: number
+  title: string
+  description: string
+}
+
+type Repository = {
+  timeStamp: number
+  repos: RepoData[]
+}
+
 interface Props {
-  current: number | undefined
+  current?: number | null
   whichRepo: (e: number) => void
 }
 
 interface State {
   drawerOpen: boolean
-  repos: object | undefined
+  repos: Repository | null
 }
 
 class RepoSelector extends React.Component<Props, State> {
   state: State = {
     drawerOpen: false,
-    repos: undefined
+    repos: null
   }
 
   componentDidMount = (): void => {
@@ -23,23 +34,23 @@ class RepoSelector extends React.Component<Props, State> {
     //   .then(pms => pms.json())
     //   .then(jsn => ...)
     // 以下仅为展示，通常直接设置fetch结果
-    // this.setState({
-    //   repos: {
-    //     timeStamp: 1693933379,
-    //     repos: [
-    //       {
-    //         key: 230906011801,
-    //         title: 'The First AeroBranch Instance',
-    //         description: 'this is the first repo'
-    //       },
-    //       {
-    //         key: 230906011802,
-    //         title: 'Another Branch Demo',
-    //         description: 'another repo as demo'
-    //       }
-    //     ]
-    //   }
-    // })
+    this.setState({
+      repos: {
+        timeStamp: 1693933379,
+        repos: [
+          {
+            key: 230906011801,
+            title: 'The First AeroBranch Instance',
+            description: 'this is the first repo'
+          },
+          {
+            key: 230906011802,
+            title: 'Another Branch Demo',
+            description: 'another repo as demo'
+          }
+        ]
+      }
+    })
   }
 
   onDrawerOpen = (): void => {
@@ -50,7 +61,7 @@ class RepoSelector extends React.Component<Props, State> {
     this.setState({ drawerOpen: false })
   }
 
-  onSelectRepo = (e): void => {
+  onSelectRepo = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
     const { whichRepo } = this.props
     const { value } = e.currentTarget
     whichRepo(parseInt(value))

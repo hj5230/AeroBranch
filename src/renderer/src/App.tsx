@@ -1,15 +1,15 @@
 import React from 'react'
 import Navbar from './components/Navbar'
-import MainPage from './components/MainPage'
+import MainPanel from './components/MainPanel'
 import './assets/App.css'
 
 interface State {
-  repo: number | undefined
+  repo: number | null
 }
 
 class App extends React.Component<object, State> {
   state: State = {
-    repo: undefined
+    repo: null
   }
 
   whichRepo = (e: number): void => {
@@ -22,7 +22,7 @@ class App extends React.Component<object, State> {
     return (
       <>
         <Navbar whichRepo={whichRepo} />
-        <MainPage repo={repo} />
+        <MainPanel repo={repo} />
       </>
     )
   }
