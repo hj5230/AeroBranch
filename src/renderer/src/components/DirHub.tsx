@@ -1,16 +1,19 @@
 import React, { Key } from 'react'
-import { Row, Card, Spin, Tree, Input } from 'antd'
+import { Row, Spin, Tree, Input } from 'antd'
 import type { DataNode } from 'antd/es/tree'
+import Panel from './Panel'
 import style from '../assets/index.module.less'
 
 const { DirectoryTree } = Tree
 
 interface Props {
   repo: number | null
+  whichFile: (e: number) => void
 }
 
 interface State {
-  treeData: DataNode[] | undefined
+  extendHeight: number
+  treeData: DataNode[] | null
   search: string
   expandedKeys: Key[] | undefined
   autoExpandParent: boolean
@@ -18,13 +21,15 @@ interface State {
 
 class DirHub extends React.Component<Props, State> {
   state: State = {
-    treeData: undefined,
+    extendHeight: window.innerHeight - 200,
+    treeData: null,
     search: '',
     expandedKeys: [],
     autoExpandParent: false
   }
 
   componentDidMount = (): void => {
+    window.addEventListener('resize', this.updateHeight)
     // fetch()
     //   .then(pms => pms.json())
     //   .then(jsn => ...)
@@ -49,6 +54,15 @@ class DirHub extends React.Component<Props, State> {
       ]
     })
   }
+  componentWillUnmount = (): void => {
+    window.removeEventListener('resize', this.updateHeight)
+  }
+
+  updateHeight = (): void => {
+    this.setState({
+      extendHeight: window.innerHeight
+    })
+  }
 
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target
@@ -70,15 +84,15 @@ class DirHub extends React.Component<Props, State> {
     )
   }
 
-  searchInTreeData = (searchValue: string, tree: DataNode[]): Key[] => {
+  searchInTreeData = (searchVal: string, tree: DataNode[]): Key[] => {
     let keys: Key[] = []
     for (let i = 0; i < tree.length; i++) {
       const node = tree[i]
-      if (node.title?.toString().includes(searchValue)) {
+      if (node.title?.toString().includes(searchVal)) {
         keys.push(node.key)
       }
       if (node.children) {
-        keys = keys.concat(this.searchInTreeData(searchValue, node.children))
+        keys = keys.concat(this.searchInTreeData(searchVal, node.children))
       }
     }
     return keys
@@ -93,16 +107,21 @@ class DirHub extends React.Component<Props, State> {
 
   render(): React.ReactNode {
     const { handleInputChange, handleExpand } = this
-    const { treeData, search, autoExpandParent, expandedKeys } = this.state
+    const { extendHeight, treeData, search, autoExpandParent, expandedKeys } = this.state
     return (
       <>
-        <Card>
+        <Panel>
           {treeData ? (
             <>
               <Row className={style.row_content}>
-                <Input value={search} placeholder="搜索文件" onChange={handleInputChange} />
+                <Input
+                  value={search}
+                  size="small"
+                  placeholder="搜索文件"
+                  onChange={handleInputChange}
+                />
               </Row>
-              <Row className={style.row_content}>
+              <Row className={style.row_content} style={{ height: extendHeight }}>
                 <DirectoryTree
                   multiple
                   showLine
@@ -116,7 +135,7 @@ class DirHub extends React.Component<Props, State> {
           ) : (
             <Spin />
           )}
-        </Card>
+        </Panel>
       </>
     )
   }

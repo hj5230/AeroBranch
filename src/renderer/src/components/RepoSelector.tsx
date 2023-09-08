@@ -78,7 +78,7 @@ class RepoSelector extends React.Component<Props, State> {
           shape="round"
           onClick={onDrawerOpen}
         >
-          {current}
+          {current ? current : '选择文件仓库'}
         </Button>
         <Drawer placement="top" closable={false} open={drawerOpen} onClose={onDrawerClose}>
           {repos ? (
