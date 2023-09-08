@@ -21,7 +21,7 @@ interface State {
 
 class DirHub extends React.Component<Props, State> {
   state: State = {
-    extendHeight: window.innerHeight - 200,
+    extendHeight: window.innerHeight,
     treeData: null,
     search: '',
     expandedKeys: [],
@@ -121,7 +121,7 @@ class DirHub extends React.Component<Props, State> {
                   onChange={handleInputChange}
                 />
               </Row>
-              <Row className={style.row_content} style={{ height: extendHeight }}>
+              <Row className={style.row_content} style={{ height: extendHeight - 170 }}>
                 <DirectoryTree
                   multiple
                   showLine
