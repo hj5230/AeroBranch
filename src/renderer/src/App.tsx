@@ -22,7 +22,7 @@ class App extends React.Component<object, State> {
     return (
       <>
         <Navbar whichRepo={whichRepo} />
-        <MainPanel repo={repo} />
+        <MainPanel repo={repo} file={0} />
       </>
     )
   }
