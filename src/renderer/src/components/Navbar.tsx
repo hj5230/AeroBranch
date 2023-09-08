@@ -19,18 +19,25 @@ class Navbar extends React.Component<Props, State> {
   userPopover = (
     <>
       <Row>
-        <Button type="text">阿?</Button>
+        <Button className={style.full_button} type="text">
+          设 置
+        </Button>
       </Row>
       <Row>
-        <Button type="text">我的仓库</Button>
+        <Button className={style.full_button} type="text">
+          服务器
+        </Button>
       </Row>
       <Row>
-        <Button type="text">登陆</Button>
+        <Button className={style.full_button} type="text">
+          退 出
+        </Button>
       </Row>
     </>
   )
 
   render(): React.ReactNode {
+    const { userPopover } = this
     const { whichRepo } = this.props
     const { repo } = this.state
     return (
@@ -44,8 +51,8 @@ class Navbar extends React.Component<Props, State> {
           <RepoSelector current={repo} whichRepo={whichRepo} />
         </Col>
         <Col span={8} style={{ textAlign: 'end' }}>
-          <Popover className={style.row_content} content={this.userPopover}>
-            <Button type="link">Username</Button>
+          <Popover className={style.row_content} content={userPopover}>
+            <Button type="link">未登录</Button>
           </Popover>
         </Col>
         <Divider className={style.nav_divider} />
