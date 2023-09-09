@@ -1,6 +1,7 @@
 import React from 'react'
 import Panel from './Panel'
-import { Button, Row, Col } from 'antd'
+import Terminal from './Terminal'
+import { Button, Row, Col, Popover } from 'antd'
 import {
   FullscreenOutlined,
   BranchesOutlined,
@@ -26,9 +27,11 @@ class OperateHub extends React.Component {
               </Button>
             </Col>
             <Col>
-              <Button size="small">
-                <CodeOutlined />
-              </Button>
+              <Popover content={<Terminal />} placement="bottom" trigger="click">
+                <Button size="small">
+                  <CodeOutlined />
+                </Button>
+              </Popover>
             </Col>
             <Col>
               <Button size="small">
