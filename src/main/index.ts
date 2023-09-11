@@ -1,7 +1,23 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+
+const os = require('os')
+
+ipcMain.handle('get-mac-address', async (): Promise<string> => {
+  const networkInterfaces = os.networkInterfaces()
+
+  let macAddress: string | undefined
+  for (const interfaceKey in networkInterfaces) {
+    const networkInterface = networkInterfaces[interfaceKey]
+    if (networkInterface[0] && networkInterface[0].mac && !networkInterface[0].internal) {
+      macAddress = networkInterface[0].mac
+      break
+    }
+  }
+  return macAddress || 'unknown'
+})
 
 function createWindow(): void {
   // Create the browser window.
