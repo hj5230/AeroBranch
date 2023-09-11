@@ -7,12 +7,13 @@ import style from '../assets/index.module.less'
 const { DirectoryTree } = Tree
 
 interface Props {
+  windowWidth: number
+  windowHeight: number
   repo: number | null
   whichFile: (e: number) => void
 }
 
 interface State {
-  extendHeight: number
   treeData: DataNode[] | null
   search: string
   expandedKeys: Key[] | undefined
@@ -21,7 +22,6 @@ interface State {
 
 class DirHub extends React.Component<Props, State> {
   state: State = {
-    extendHeight: window.innerHeight,
     treeData: null,
     search: '',
     expandedKeys: [],
@@ -29,7 +29,6 @@ class DirHub extends React.Component<Props, State> {
   }
 
   componentDidMount = (): void => {
-    window.addEventListener('resize', this.updateHeight)
     // fetch()
     //   .then(pms => pms.json())
     //   .then(jsn => ...)
@@ -52,15 +51,6 @@ class DirHub extends React.Component<Props, State> {
           ]
         }
       ]
-    })
-  }
-  componentWillUnmount = (): void => {
-    window.removeEventListener('resize', this.updateHeight)
-  }
-
-  updateHeight = (): void => {
-    this.setState({
-      extendHeight: window.innerHeight
     })
   }
 
@@ -107,7 +97,8 @@ class DirHub extends React.Component<Props, State> {
 
   render(): React.ReactNode {
     const { handleInputChange, handleExpand } = this
-    const { extendHeight, treeData, search, autoExpandParent, expandedKeys } = this.state
+    const { windowHeight } = this.props
+    const { treeData, search, autoExpandParent, expandedKeys } = this.state
     return (
       <>
         <Panel>
@@ -121,7 +112,7 @@ class DirHub extends React.Component<Props, State> {
                   onChange={handleInputChange}
                 />
               </Row>
-              <Row className={style.row_content} style={{ height: extendHeight - 170 }}>
+              <Row className={style.row_content} style={{ height: windowHeight - 170 }}>
                 <DirectoryTree
                   multiple
                   showLine

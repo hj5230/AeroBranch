@@ -10,8 +10,14 @@ import {
 } from '@ant-design/icons'
 // import style from '../assets/index.module.less'
 
-class OperateHub extends React.Component {
+interface Props {
+  windowWidth: number
+  windowHeight: number
+}
+
+class OperateHub extends React.Component<Props, object> {
   render(): React.ReactNode {
+    const { windowWidth, windowHeight } = this.props
     return (
       <>
         <Panel>
@@ -27,7 +33,11 @@ class OperateHub extends React.Component {
               </Button>
             </Col>
             <Col>
-              <Popover content={<Terminal />} placement="bottom" trigger="click">
+              <Popover
+                content={<Terminal windowWidth={windowWidth} windowHeight={windowHeight} />}
+                placement="bottom"
+                trigger="click"
+              >
                 <Button size="small">
                   <CodeOutlined />
                 </Button>

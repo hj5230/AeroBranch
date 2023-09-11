@@ -8,6 +8,8 @@ import style from '../assets/index.module.less'
 const { Content } = Layout
 
 interface Props {
+  windowWidth: number
+  windowHeight: number
   repo: number | null
   file: number | null
 }
@@ -27,17 +29,22 @@ class MainPanel extends React.Component<Props, State> {
 
   render(): React.ReactNode {
     const { whichFile } = this
-    const { repo } = this.props
+    const { windowWidth, windowHeight, repo } = this.props
     return (
       <>
         <Content className={style.page_content}>
           <Row gutter={[5, 0]}>
             <Col span={4}>
               <Row>
-                <OperateHub />
+                <OperateHub windowWidth={windowWidth} windowHeight={windowHeight} />
               </Row>
               <Row>
-                <DirHub repo={repo} whichFile={whichFile} />
+                <DirHub
+                  repo={repo}
+                  whichFile={whichFile}
+                  windowWidth={windowWidth}
+                  windowHeight={windowHeight}
+                />
               </Row>
             </Col>
             <Col span={20}>
