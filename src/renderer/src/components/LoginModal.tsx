@@ -6,7 +6,6 @@ import { LoadingOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-de
 const { Item } = Form
 const { Password } = Input
 const { Compact } = Space
-const api = notification
 
 interface PasswordRequirementProps {
   text: string
@@ -48,7 +47,7 @@ class LoginModal extends React.Component<Props, State> {
 
   openUnknownMacNote = (placement: NotificationPlacement): void => {
     const { macAddr } = this.state
-    api.error({
+    notification.error({
       message: '未被记录的设备',
       description: `当前MAC地址为 ${macAddr} 的设备未被服务器记录，访问因此被拒绝。`,
       placement,
@@ -84,14 +83,14 @@ class LoginModal extends React.Component<Props, State> {
 
   onCheckPassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target
-    this.setState({ password: value })
-    const isLengthValid = value.length >= 8
-    const hasDigit = /\d/.test(value)
-    const hasLowercase = /[a-z]/.test(value)
-    const hasUppercase = /[A-Z]/.test(value)
-    const hasSpecialChar = /[~`!@#$%^&*()_\-+={[}\]:;"'<,>.?/]/.test(value)
     this.setState({
-      pwdOk: [isLengthValid, hasDigit, hasLowercase && hasUppercase, hasSpecialChar]
+      password: value,
+      pwdOk: [
+        value.length >= 8,
+        /\d/.test(value),
+        /[a-z]/.test(value) && /[A-Z]/.test(value),
+        /[~`!@#$%^&*()_\-+={[}\]:;"'<,>.?/]/.test(value)
+      ]
     })
   }
 
@@ -103,7 +102,6 @@ class LoginModal extends React.Component<Props, State> {
 
   handleSubmit = (): void => {
     const { onClose } = this.props
-    console.log(100)
     // ...
     onClose()
   }
@@ -150,6 +148,13 @@ class LoginModal extends React.Component<Props, State> {
                 onChange={onCheckPassword}
                 placeholder="密码"
                 size="small"
+                prefix={
+                  pwdOk.every((e) => e === true) ? (
+                    <CheckCircleTwoTone twoToneColor="#52c41a" />
+                  ) : (
+                    <CloseCircleTwoTone twoToneColor="#FF1616" />
+                  )
+                }
               />
               <Compact direction="vertical">
                 <PasswordRequirement satisfied={pwdOk[0]} text="密码长度至少为8位" />
