@@ -1,6 +1,7 @@
 import React from 'react'
 import { Row, Col, Button, Popover, Divider } from 'antd'
 import RepoSelector from './RepoSelector'
+import LoginModal from './LoginModal'
 import style from '../assets/index.module.less'
 
 interface Props {
@@ -9,11 +10,15 @@ interface Props {
 
 interface State {
   repo: number | null
+  loginOpen: boolean
+  user: string | null
 }
 
 class Navbar extends React.Component<Props, State> {
   state: State = {
-    repo: null
+    repo: null,
+    loginOpen: false,
+    user: null
   }
 
   userPopover = (
@@ -36,10 +41,18 @@ class Navbar extends React.Component<Props, State> {
     </>
   )
 
+  handleLoginOpen = (): void => {
+    this.setState({ loginOpen: true })
+  }
+
+  handleLoginClose = (): void => {
+    this.setState({ loginOpen: false })
+  }
+
   render(): React.ReactNode {
-    const { userPopover } = this
+    const { userPopover, handleLoginOpen, handleLoginClose } = this
     const { whichRepo } = this.props
-    const { repo } = this.state
+    const { repo, loginOpen } = this.state
     return (
       <Row>
         <Col span={8} style={{ textAlign: 'start' }}>
@@ -51,9 +64,12 @@ class Navbar extends React.Component<Props, State> {
           <RepoSelector current={repo} whichRepo={whichRepo} />
         </Col>
         <Col span={8} style={{ textAlign: 'end' }}>
-          <Popover className={style.row_content} content={userPopover}>
-            <Button type="link">未登录</Button>
+          <Popover content={userPopover}>
+            <Button className={style.row_content} type="link" onClick={handleLoginOpen}>
+              未登录
+            </Button>
           </Popover>
+          <LoginModal onOpen={loginOpen} onClose={handleLoginClose} />
         </Col>
         <Divider className={style.nav_divider} />
       </Row>
