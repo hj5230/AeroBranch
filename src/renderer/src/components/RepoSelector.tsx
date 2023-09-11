@@ -73,11 +73,7 @@ class RepoSelector extends React.Component<Props, State> {
     const { drawerOpen, repos } = this.state
     return (
       <>
-        <Button
-          className={`${style.row_content} ${style.full_button}`}
-          shape="round"
-          onClick={onDrawerOpen}
-        >
+        <Button className={style.select_repo_btn} shape="round" onClick={onDrawerOpen}>
           {current ? current : '选择文件仓库'}
         </Button>
         <Drawer placement="top" closable={false} open={drawerOpen} onClose={onDrawerClose}>
