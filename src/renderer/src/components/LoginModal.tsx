@@ -41,7 +41,7 @@ class LoginModal extends React.Component<Props, State> {
     macAddr: '',
     ipAddr: '',
     password: '',
-    macOk: true,
+    macOk: null,
     pwdOk: [false, false, false, false]
   }
 
@@ -56,13 +56,12 @@ class LoginModal extends React.Component<Props, State> {
   }
 
   componentDidMount = async (): Promise<void> => {
-    this.setState({ macAddr: await window.api.getMacAddress() }, () => {
-      // -check if mac is recorded by server-
-      // fetch('...')
-      //   .then(pms => pms.json)
-      //   .then(jsn => ...)
-      // -then update state macOk-
-      // this.setState({ macOk: true })
+    const { getMacAddress } = window.api
+    this.setState({ macAddr: await getMacAddress() }, () => {
+      const { macAddr } = this.state
+      fetch(`http://localhost:9999/login/verify_mac/${macAddr}`)
+        .then((pms) => pms.json())
+        .then((jsn) => this.setState({ macOk: jsn.macOk }))
     })
   }
 
@@ -75,11 +74,6 @@ class LoginModal extends React.Component<Props, State> {
       return
     }
   }
-
-  // handleFormItemChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-  //   const { name, value } = e.target
-  //   this.setState({ [name]: value } as unknown as Pick<State, keyof State>)
-  // }
 
   onCheckPassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target
@@ -102,7 +96,7 @@ class LoginModal extends React.Component<Props, State> {
 
   handleSubmit = (): void => {
     const { onClose } = this.props
-    // ...
+    console.log('loging')
     onClose()
   }
 
@@ -156,6 +150,8 @@ class LoginModal extends React.Component<Props, State> {
                   )
                 }
               />
+            </Item>
+            <Item>
               <Compact direction="vertical">
                 <PasswordRequirement satisfied={pwdOk[0]} text="密码长度至少为8位" />
                 <PasswordRequirement satisfied={pwdOk[1]} text="密码必须含有数字" />
