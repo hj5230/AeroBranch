@@ -3,6 +3,8 @@ import { Modal, Form, Input, Button, Space, Badge, notification } from 'antd'
 import type { NotificationPlacement } from 'antd/es/notification/interface'
 import { LoadingOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons'
 
+const { getMacAddress, getEnvServer } = window.api
+
 const { Item } = Form
 const { Password } = Input
 const { Compact } = Space
@@ -29,6 +31,7 @@ interface Props {
 }
 
 interface State {
+  serverUrl: string
   macAddr: string
   ipAddr: string
   password: string
@@ -38,6 +41,7 @@ interface State {
 
 class LoginModal extends React.Component<Props, State> {
   state: State = {
+    serverUrl: '',
     macAddr: '',
     ipAddr: '',
     password: '',
@@ -55,14 +59,37 @@ class LoginModal extends React.Component<Props, State> {
     })
   }
 
-  componentDidMount = async (): Promise<void> => {
-    const { getMacAddress } = window.api
-    this.setState({ macAddr: await getMacAddress() }, () => {
-      const { macAddr } = this.state
-      fetch(`http://localhost:9999/login/verify_mac/${macAddr}`)
-        .then((pms) => pms.json())
-        .then((jsn) => this.setState({ macOk: jsn.macOk }))
+  openPasswordNotMatchNote = (placement: NotificationPlacement): void => {
+    notification.error({
+      message: '密码错误',
+      description: '提交的密码与MAC地址拥有者的密码不匹配',
+      placement,
+      duration: 0
     })
+  }
+
+  openLoggedInNote = (placement: NotificationPlacement): void => {
+    notification.success({
+      message: '登陆成功',
+      // description: '提交的密码与MAC地址拥有者的密码不匹配',
+      placement,
+      duration: 3
+    })
+  }
+
+  componentDidMount = async (): Promise<void> => {
+    this.setState(
+      {
+        serverUrl: await getEnvServer(),
+        macAddr: await getMacAddress()
+      },
+      () => {
+        const { serverUrl, macAddr } = this.state
+        fetch(`${serverUrl}/login/verify_mac/${macAddr}`)
+          .then((pms) => pms.json())
+          .then((jsn) => this.setState({ macOk: jsn.macOk }))
+      }
+    )
   }
 
   componentDidUpdate = (): void => {
@@ -71,7 +98,6 @@ class LoginModal extends React.Component<Props, State> {
     const { macOk } = this.state
     if (onOpen === true && macOk === false) {
       openUnknownMacNote('bottom')
-      return
     }
   }
 
@@ -94,10 +120,28 @@ class LoginModal extends React.Component<Props, State> {
     else return true
   }
 
-  handleSubmit = (): void => {
+  handleSubmit = async (): Promise<void> => {
+    const { openLoggedInNote, openPasswordNotMatchNote } = this
     const { onClose } = this.props
-    console.log('loging')
-    onClose()
+    const { serverUrl, password, macAddr } = this.state
+    fetch(`${serverUrl}/login/sign`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        macAddr: macAddr,
+        password: password
+      })
+    })
+      .then((pms) => pms.json())
+      .then((jsn) => {
+        console.log(jsn)
+        if (!jsn.ERR) {
+          window.localStorage.setItem('jwt', jsn.token)
+          onClose()
+          openLoggedInNote('bottom')
+        } else if (jsn.ERR === 'PWDNM') openPasswordNotMatchNote('bottom')
+        else if (jsn.ERR === 'USRNF') this.setState({ macOk: false })
+      })
   }
 
   render(): React.ReactNode {
@@ -143,7 +187,7 @@ class LoginModal extends React.Component<Props, State> {
                 placeholder="密码"
                 size="small"
                 prefix={
-                  pwdOk.every((e) => e === true) ? (
+                  pwdOk.every((e) => e) ? (
                     <CheckCircleTwoTone twoToneColor="#52c41a" />
                   ) : (
                     <CloseCircleTwoTone twoToneColor="#FF1616" />
