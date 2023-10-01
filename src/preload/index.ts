@@ -5,6 +5,9 @@ import { electronAPI } from '@electron-toolkit/preload'
 const api = {
   getMacAddress: async (): Promise<string> => {
     return await ipcRenderer.invoke('get-mac-address')
+  },
+  getEnvServer: async (): Promise<string> => {
+    return await ipcRenderer.invoke('get-env-server')
   }
 }
 

@@ -1,13 +1,19 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import { join } from 'path'
+import { join, resolve } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import dotenv from 'dotenv'
 import icon from '../../resources/icon.png?asset'
 
 const os = require('os')
 
+dotenv.config({
+  path: resolve(__dirname, '../../.env'),
+  encoding: 'utf8',
+  debug: false
+}).parsed
+
 ipcMain.handle('get-mac-address', async (): Promise<string> => {
   const networkInterfaces = os.networkInterfaces()
-
   let macAddress: string | undefined
   for (const interfaceKey in networkInterfaces) {
     const networkInterface = networkInterfaces[interfaceKey]
@@ -17,6 +23,10 @@ ipcMain.handle('get-mac-address', async (): Promise<string> => {
     }
   }
   return macAddress || 'unknown'
+})
+
+ipcMain.handle('get-env-server', async (): Promise<string> => {
+  return process.env.SERVER || 'http://localhost:3000'
 })
 
 function createWindow(): void {

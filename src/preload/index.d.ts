@@ -5,6 +5,7 @@ declare global {
     electron: ElectronAPI
     api: {
       getMacAddress: () => Promise<string>
+      getEnvServer: () => Promise<string>
     }
   }
 }
