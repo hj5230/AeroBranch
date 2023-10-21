@@ -2,9 +2,18 @@
 
 An Electron application with React and TypeScript
 
-## Recommended IDE Setup
+## Project Description
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+Introducing a comprehensive solution for users seeking an alternative to effortlessly upload, manage, backup, and synchronize their designated file directories in a secure manner.
+
+This project is implemented in web technologies that contains:
+
+- TypeScript
+- Vite
+- React
+- Electron
+
+The project supports cross-platform deployment for **Windows**, **MacOS**, and **Linux**. For detailed instructions on setup, development, and deployment, see the sections below.
 
 ## Project Setup
 
@@ -23,12 +32,12 @@ $ yarn dev
 ### Build
 
 ```bash
-# For windows
+# windows
 $ yarn build:win
 
-# For macOS
+# macOS
 $ yarn build:mac
 
-# For Linux
+# Linux
 $ yarn build:linux
 ```
