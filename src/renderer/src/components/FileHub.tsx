@@ -15,20 +15,19 @@ class FileHub extends React.Component<Props, State> {
     // fetch()
     //   .then(pms => pms.json())
     //   .then()
-    this.setState({
-      
-    })
+    this.setState({})
   }
 
-  componentDidUpdate = (prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void => {
-    
-  }
+  // componentDidUpdate = (
+  //   prevProps: Readonly<Props>,
+  //   prevState: Readonly<State>,
+  //   snapshot?: any
+  // ): void => {}
 
   render(): React.ReactNode {
     return (
       <>
-        <Panel>
-        </Panel>
+        <Panel></Panel>
       </>
     )
   }
