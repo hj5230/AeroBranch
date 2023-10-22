@@ -63,15 +63,16 @@ class LoginModal extends React.Component<Props, State> {
   openPasswordNotMatchNote = (placement: NotificationPlacement): void => {
     notification.error({
       message: '密码错误',
-      description: '提交的密码与MAC地址拥有者的密码不匹配',
+      description: '提交的密码与MAC地址拥有者的密码不匹配。',
       placement,
       duration: 3
     })
   }
 
-  openLoggedInNote = (placement: NotificationPlacement): void => {
+  openLoggedInNote = (placement: NotificationPlacement, username: string): void => {
     notification.success({
       message: '登陆成功',
+      description: `欢迎回来，${username}。`,
       placement,
       duration: 3
     })
@@ -85,7 +86,7 @@ class LoginModal extends React.Component<Props, State> {
       },
       () => {
         const { serverUrl, macAddr } = this.state
-        fetch(`${serverUrl}/login/verify_mac/${macAddr}`)
+        fetch(`${serverUrl}/login/verify/${macAddr}`)
           .then((pms) => pms.json())
           .then((jsn) => this.setState({ macOk: jsn.macOk }))
       }
@@ -139,7 +140,7 @@ class LoginModal extends React.Component<Props, State> {
           window.localStorage.setItem('jwt', jsn.token)
           onClose()
           whichUser(jsn.username)
-          openLoggedInNote('bottom')
+          openLoggedInNote('bottom', jsn.username)
         } else if (jsn.errno === 'PWDNM') openPasswordNotMatchNote('bottom')
         else if (jsn.errno === 'USRNF') this.setState({ macOk: false })
       })
@@ -153,7 +154,7 @@ class LoginModal extends React.Component<Props, State> {
       <>
         <Modal open={onOpen} onCancel={onClose} footer={null}>
           <Form onFinish={handleSubmit} autoComplete="off" style={{ marginTop: 30 }}>
-            <Item<LoginForm> name="macAddr" style={{ marginBottom: 0 }} initialValue={macAddr}>
+            <Item<LoginForm> style={{ marginBottom: 0 }} initialValue={macAddr}>
               {macOk === null && (
                 <Input
                   placeholder="MAC地址"
@@ -181,7 +182,7 @@ class LoginModal extends React.Component<Props, State> {
                 />
               )}
             </Item>
-            <Item<LoginForm> name="password" style={{ marginBottom: 0 }}>
+            <Item<LoginForm> style={{ marginBottom: 0 }}>
               <Password
                 value={password}
                 onChange={onCheckPassword}
@@ -203,7 +204,7 @@ class LoginModal extends React.Component<Props, State> {
                 <PasswordRequirement satisfied={pwdOk[2]} text="密码必须含有大小写字母" />
                 <PasswordRequirement
                   satisfied={pwdOk[3]}
-                  text="密码必须含有 ~`! @#$%^&* ()_-+= { [}]|\:;”‘<,>.?/ 之一"
+                  text="密码必须含有 ~`!@#$%^&*()_-+={[}]|\:;”‘<,>.?/ 之一"
                 />
               </Compact>
             </Item>
