@@ -94,6 +94,7 @@ class Terminal extends React.Component<Props, State> {
           ))}
           <textarea
             className={style.terminal_input}
+            // value={`sasha@WUJIE-14:Repo$${inputValue}`}
             value={inputValue}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
