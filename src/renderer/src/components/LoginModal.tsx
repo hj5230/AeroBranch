@@ -28,6 +28,7 @@ type LoginForm = {
 interface Props {
   onOpen: boolean
   onClose: () => void
+  whichUser: (e: string) => void
 }
 
 interface State {
@@ -64,14 +65,13 @@ class LoginModal extends React.Component<Props, State> {
       message: '密码错误',
       description: '提交的密码与MAC地址拥有者的密码不匹配',
       placement,
-      duration: 0
+      duration: 3
     })
   }
 
   openLoggedInNote = (placement: NotificationPlacement): void => {
     notification.success({
       message: '登陆成功',
-      // description: '提交的密码与MAC地址拥有者的密码不匹配',
       placement,
       duration: 3
     })
@@ -122,7 +122,7 @@ class LoginModal extends React.Component<Props, State> {
 
   handleSubmit = async (): Promise<void> => {
     const { openLoggedInNote, openPasswordNotMatchNote } = this
-    const { onClose } = this.props
+    const { onClose, whichUser } = this.props
     const { serverUrl, password, macAddr } = this.state
     fetch(`${serverUrl}/login/sign`, {
       method: 'POST',
@@ -135,12 +135,13 @@ class LoginModal extends React.Component<Props, State> {
       .then((pms) => pms.json())
       .then((jsn) => {
         console.log(jsn)
-        if (!jsn.ERR) {
+        if (!jsn.errno && jsn.token) {
           window.localStorage.setItem('jwt', jsn.token)
           onClose()
+          whichUser(jsn.username)
           openLoggedInNote('bottom')
-        } else if (jsn.ERR === 'PWDNM') openPasswordNotMatchNote('bottom')
-        else if (jsn.ERR === 'USRNF') this.setState({ macOk: false })
+        } else if (jsn.errno === 'PWDNM') openPasswordNotMatchNote('bottom')
+        else if (jsn.errno === 'USRNF') this.setState({ macOk: false })
       })
   }
 

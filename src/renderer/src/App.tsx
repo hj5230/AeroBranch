@@ -6,14 +6,18 @@ import './assets/App.css'
 interface State {
   windowWidth: number
   windowHeight: number
-  repo: number | null
+  user: string | null
+  repos: object[]
+  currentRepo: number | null
 }
 
 class App extends React.Component<object, State> {
   state: State = {
     windowWidth: window.innerWidth,
     windowHeight: window.innerHeight,
-    repo: null
+    user: null,
+    repos: [],
+    currentRepo: null
   }
 
   componentDidMount = (): void => {
@@ -37,16 +41,20 @@ class App extends React.Component<object, State> {
   }
 
   whichRepo = (e: number): void => {
-    this.setState({ repo: e })
+    this.setState({ currentRepo: e })
+  }
+
+  whichUser = (e: string): void => {
+    this.setState({ user: e })
   }
 
   render(): React.ReactNode {
-    const { whichRepo } = this
-    const { windowHeight, windowWidth, repo } = this.state
+    const { whichUser, whichRepo } = this
+    const { windowHeight, windowWidth, user, repos } = this.state
     return (
       <>
-        <Navbar whichRepo={whichRepo} />
-        <MainPanel repo={repo} file={0} windowWidth={windowWidth} windowHeight={windowHeight} />
+        <Navbar user={user} whichUser={whichUser} repos={repos} whichRepo={whichRepo} />
+        <MainPanel repo={repos} file={0} windowWidth={windowWidth} windowHeight={windowHeight} />
       </>
     )
   }

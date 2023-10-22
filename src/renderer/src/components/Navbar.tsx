@@ -5,20 +5,19 @@ import LoginModal from './LoginModal'
 import style from '../assets/index.module.less'
 
 interface Props {
+  user: string | null
+  whichUser: (e: string) => void
+  repos: object[]
   whichRepo: (e: number) => void
 }
 
 interface State {
-  repo: number | null
   loginOpen: boolean
-  user: string | null
 }
 
 class Navbar extends React.Component<Props, State> {
   state: State = {
-    repo: null,
-    loginOpen: false,
-    user: null
+    loginOpen: false
   }
 
   userPopover = (
@@ -51,8 +50,8 @@ class Navbar extends React.Component<Props, State> {
 
   render(): React.ReactNode {
     const { userPopover, handleLoginOpen, handleLoginClose } = this
-    const { whichRepo } = this.props
-    const { repo, loginOpen } = this.state
+    const { user, whichUser, whichRepo } = this.props
+    const { loginOpen } = this.state
     return (
       <Row>
         <Col span={8} style={{ textAlign: 'start' }}>
@@ -61,15 +60,15 @@ class Navbar extends React.Component<Props, State> {
           </Button>
         </Col>
         <Col span={8} style={{ textAlign: 'center' }}>
-          <RepoSelector current={repo} whichRepo={whichRepo} />
+          {/* <RepoSelector current={repo} whichRepo={whichRepo} /> */}
         </Col>
         <Col span={8} style={{ textAlign: 'end' }}>
           <Popover content={userPopover}>
             <Button className={style.row_content} type="link" onClick={handleLoginOpen}>
-              未登录
+              {user ? user : '登 陆'}
             </Button>
           </Popover>
-          <LoginModal onOpen={loginOpen} onClose={handleLoginClose} />
+          <LoginModal onOpen={loginOpen} onClose={handleLoginClose} whichUser={whichUser} />
         </Col>
         <Divider className={style.nav_divider} />
       </Row>
