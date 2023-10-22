@@ -9,7 +9,7 @@ const { DirectoryTree } = Tree
 interface Props {
   windowWidth: number
   windowHeight: number
-  repo: number | null
+  repo: object[]
   whichFile: (e: number) => void
 }
 

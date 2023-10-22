@@ -10,7 +10,7 @@ const { Content } = Layout
 interface Props {
   windowWidth: number
   windowHeight: number
-  repo: number | null
+  repo: object[]
   file: number | null
 }
 
