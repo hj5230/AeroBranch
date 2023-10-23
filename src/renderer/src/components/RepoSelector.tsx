@@ -1,26 +1,28 @@
 import React from 'react'
 import { Row, Button, Drawer, Spin, Popover } from 'antd'
 import style from '../assets/index.module.less'
+import Repository from '@renderer/interfaces/Repository'
 
-type RepoData = {
-  key: number
-  title: string
-  description: string
-}
+// type RepoData = {
+//   key: number
+//   title: string
+//   description: string
+// }
 
-type Repository = {
-  timeStamp: number
-  repos: RepoData[]
-}
+// type Repository = {
+//   timeStamp: number
+//   repos: RepoData[]
+// }
 
 interface Props {
-  current?: number | null
+  current: number | null
+  repos: Repository[]
   whichRepo: (e: number) => void
 }
 
 interface State {
   drawerOpen: boolean
-  repos: Repository | null
+  repos: Repository[] | null
 }
 
 class RepoSelector extends React.Component<Props, State> {
@@ -35,21 +37,17 @@ class RepoSelector extends React.Component<Props, State> {
     //   .then(jsn => ...)
     // 以下仅为展示，通常直接设置fetch结果
     this.setState({
-      repos: {
-        timeStamp: 1693933379,
-        repos: [
-          {
-            key: 230906011801,
-            title: 'The First AeroBranch Instance',
-            description: 'this is the first repo'
-          },
-          {
-            key: 230906011802,
-            title: 'Another Branch Demo',
-            description: 'another repo as demo'
-          }
-        ]
-      }
+      repos: [
+        {
+          id: 1693933379,
+          name: 'Demo Repository',
+          description: 'the first repo instance as demo'
+        },
+        {
+          id: 1693936982,
+          name: 'Another Demo Repo'
+        }
+      ]
     })
   }
 
@@ -78,16 +76,16 @@ class RepoSelector extends React.Component<Props, State> {
         </Button>
         <Drawer placement="top" closable={false} open={drawerOpen} onClose={onDrawerClose}>
           {repos ? (
-            repos['repos'].map((repo, index) => (
+            repos.map((repo, index) => (
               <Row className={style.row_content} key={index}>
                 <Popover content={repo.description} placement="bottom" trigger="hover">
                   <Button
                     className={style.full_button}
                     shape="round"
-                    value={repo.key}
+                    value={repo.id}
                     onClick={onSelectRepo}
                   >
-                    {repo.title}
+                    {repo.name}
                   </Button>
                 </Popover>
               </Row>

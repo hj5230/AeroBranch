@@ -1,13 +1,14 @@
 import React from 'react'
 import Navbar from './components/Navbar'
 import MainPanel from './components/MainPanel'
+import Repository from '@renderer/interfaces/Repository'
 import './assets/App.css'
 
 interface State {
   windowWidth: number
   windowHeight: number
   user: string | null
-  repos: object[]
+  repos: Repository[]
   currentRepo: number | null
 }
 
@@ -40,20 +41,30 @@ class App extends React.Component<object, State> {
     this.setState({ windowHeight: window.innerHeight })
   }
 
-  whichRepo = (e: number): void => {
+  whichRepo = (e: number | null): void => {
     this.setState({ currentRepo: e })
   }
 
-  whichUser = (e: string): void => {
+  whichUser = (e: string | null): void => {
     this.setState({ user: e })
+  }
+
+  loadReposInfo = (): void => {
+    // fetch(repos)
   }
 
   render(): React.ReactNode {
     const { whichUser, whichRepo } = this
-    const { windowHeight, windowWidth, user, repos } = this.state
+    const { windowHeight, windowWidth, user, repos, currentRepo } = this.state
     return (
       <>
-        <Navbar user={user} whichUser={whichUser} repos={repos} whichRepo={whichRepo} />
+        <Navbar
+          user={user}
+          whichUser={whichUser}
+          repos={repos}
+          currentRepo={currentRepo}
+          whichRepo={whichRepo}
+        />
         <MainPanel repo={repos} file={0} windowWidth={windowWidth} windowHeight={windowHeight} />
       </>
     )
