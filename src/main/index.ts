@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join, resolve } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import dotenv from 'dotenv'
@@ -29,6 +29,14 @@ ipcMain.handle('get-env-server', async (): Promise<string> => {
   return process.env.SERVER || 'http://localhost:3000'
 })
 
+ipcMain.handle('open-dir-dialog', async (): Promise<string> => {
+  const res = await dialog.showOpenDialog({
+    properties: ['openDirectory']
+  })
+  if (res.canceled) return ''
+  else return res.filePaths[0]
+})
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -40,7 +48,6 @@ function createWindow(): void {
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
-      // webSecurity: false
     }
   })
 

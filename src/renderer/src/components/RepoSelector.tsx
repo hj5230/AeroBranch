@@ -1,18 +1,7 @@
 import React from 'react'
 import { Row, Button, Drawer, Spin, Popover } from 'antd'
 import style from '../assets/index.module.less'
-import Repository from '@renderer/interfaces/Repository'
-
-// type RepoData = {
-//   key: number
-//   title: string
-//   description: string
-// }
-
-// type Repository = {
-//   timeStamp: number
-//   repos: RepoData[]
-// }
+import { Repository } from '@renderer/interfaces/Repository'
 
 interface Props {
   current: number | null
@@ -31,25 +20,7 @@ class RepoSelector extends React.Component<Props, State> {
     repos: null
   }
 
-  componentDidMount = (): void => {
-    // fetch()
-    //   .then(pms => pms.json())
-    //   .then(jsn => ...)
-    // 以下仅为展示，通常直接设置fetch结果
-    this.setState({
-      repos: [
-        {
-          id: 1693933379,
-          name: 'Demo Repository',
-          description: 'the first repo instance as demo'
-        },
-        {
-          id: 1693936982,
-          name: 'Another Demo Repo'
-        }
-      ]
-    })
-  }
+  componentDidMount = (): void => {}
 
   onDrawerOpen = (): void => {
     this.setState({ drawerOpen: true })
@@ -67,13 +38,15 @@ class RepoSelector extends React.Component<Props, State> {
 
   render(): React.ReactNode {
     const { onDrawerOpen, onDrawerClose, onSelectRepo } = this
-    const { current } = this.props
-    const { drawerOpen, repos } = this.state
+    const { current, repos } = this.props
+    const { drawerOpen } = this.state
     return (
       <>
-        <Button className={style.select_repo_btn} shape="round" onClick={onDrawerOpen}>
-          {current ? current : '选择文件仓库'}
-        </Button>
+        <Popover content="当前仓库介绍" placement="bottom" trigger="hover">
+          <Button className={style.select_repo_btn} shape="round" onClick={onDrawerOpen}>
+            {current ? current : '选择文件仓库'}
+          </Button>
+        </Popover>
         <Drawer placement="top" closable={false} open={drawerOpen} onClose={onDrawerClose}>
           {repos ? (
             repos.map((repo, index) => (

@@ -8,6 +8,9 @@ const api = {
   },
   getEnvServer: async (): Promise<string> => {
     return await ipcRenderer.invoke('get-env-server')
+  },
+  openDirDialog: async (): Promise<string> => {
+    return await ipcRenderer.invoke('open-dir-dialog')
   }
 }
 

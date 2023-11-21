@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from './components/Navbar'
 import MainPanel from './components/MainPanel'
-import Repository from '@renderer/interfaces/Repository'
+import { Repository } from '@renderer/interfaces/Repository'
 import './assets/App.css'
 
 interface State {
@@ -17,7 +17,19 @@ class App extends React.Component<object, State> {
     windowWidth: window.innerWidth,
     windowHeight: window.innerHeight,
     user: null,
-    repos: [],
+    repos: [
+      {
+        id: 1693933379,
+        name: 'Demo Repository',
+        fromAero: true,
+        description: 'the first repo instance as demo'
+      },
+      {
+        id: 1693936982,
+        name: 'Another Demo Repo',
+        fromAero: true
+      }
+    ],
     currentRepo: null
   }
 
@@ -49,12 +61,19 @@ class App extends React.Component<object, State> {
     this.setState({ user: e })
   }
 
+  addRepo = (e: Repository): void => {
+    const { repos } = this.state
+    this.setState({ repos: [...repos, e] }, () => {
+      console.log(this.state.repos)
+    })
+  }
+
   loadReposInfo = (): void => {
     // fetch(repos)
   }
 
   render(): React.ReactNode {
-    const { whichUser, whichRepo } = this
+    const { whichUser, whichRepo, addRepo } = this
     const { windowHeight, windowWidth, user, repos, currentRepo } = this.state
     return (
       <>
@@ -64,6 +83,7 @@ class App extends React.Component<object, State> {
           repos={repos}
           currentRepo={currentRepo}
           whichRepo={whichRepo}
+          addRepo={addRepo}
         />
         <MainPanel repo={repos} file={0} windowWidth={windowWidth} windowHeight={windowHeight} />
       </>

@@ -2,8 +2,8 @@ import React from 'react'
 import { Row, Col, Button, Popover, Divider, notification } from 'antd'
 import RepoSelector from './RepoSelector'
 import LoginModal from './LoginModal'
-import Repository from '@renderer/interfaces/Repository'
-import style from '../assets/index.module.less'
+import { Repository } from '@renderer/interfaces/Repository'
+import style from '@renderer/assets/index.module.less'
 
 interface Props {
   user: string | null
@@ -11,6 +11,7 @@ interface Props {
   repos: Repository[]
   currentRepo: number | null
   whichRepo: (e: number) => void
+  addRepo: (e: Repository) => void
 }
 
 interface State {
@@ -36,6 +37,21 @@ class Navbar extends React.Component<Props, State> {
     window.localStorage.removeItem('jwt')
     whichUser(null)
     openSignOutNote()
+  }
+
+  handleSelectLocalDir = async (): Promise<void> => {
+    const { addRepo } = this.props
+    const { openDirDialog } = window.api
+    const dir = await openDirDialog()
+    if (!dir) return
+    // check if exists on cloud
+    // if no update `repos`
+    addRepo({
+      id: Date.now(),
+      name: dir,
+      fromAero: false
+    })
+    // console.log(this.props.repos)
   }
 
   openSignOutNote = (): void => {
@@ -73,14 +89,14 @@ class Navbar extends React.Component<Props, State> {
   )
 
   render(): React.ReactNode {
-    const { userPopover, handleLoginOpen, handleLoginClose } = this
+    const { userPopover, handleLoginOpen, handleLoginClose, handleSelectLocalDir } = this
     const { user, whichUser, repos, currentRepo, whichRepo } = this.props
     const { loginOpen } = this.state
     return (
       <Row>
         <Col span={8} style={{ textAlign: 'start' }}>
-          <Button className={style.row_content} type="text">
-            没用
+          <Button className={style.row_content} type="text" onClick={handleSelectLocalDir}>
+            本地目录
           </Button>
         </Col>
         <Col span={8} style={{ textAlign: 'center' }}>
