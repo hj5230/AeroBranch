@@ -3,6 +3,7 @@ import { join, resolve } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import dotenv from 'dotenv'
 import icon from '../../resources/icon.png?asset'
+import getDirTree from './utils'
 
 const os = require('os')
 
@@ -29,12 +30,12 @@ ipcMain.handle('get-env-server', async (): Promise<string> => {
   return process.env.SERVER || 'http://localhost:3000'
 })
 
-ipcMain.handle('open-dir-dialog', async (): Promise<string> => {
+ipcMain.handle('open-dir-dialog', async (): Promise<object> => {
   const res = await dialog.showOpenDialog({
     properties: ['openDirectory']
   })
-  if (res.canceled) return ''
-  else return res.filePaths[0]
+  if (res.canceled) return {}
+  else return getDirTree(res.filePaths[0])
 })
 
 function createWindow(): void {

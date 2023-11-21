@@ -6,7 +6,7 @@ declare global {
     api: {
       getMacAddress: () => Promise<string>
       getEnvServer: () => Promise<string>
-      openDirDialog: () => Promise<string>
+      openDirDialog: () => Promise<object>
     }
   }
 }
