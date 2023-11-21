@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from './components/Navbar'
 import MainPanel from './components/MainPanel'
-import { Repository } from '@renderer/interfaces/Repository'
+import Repository from '@renderer/interfaces/Repository'
 import './assets/App.css'
 
 interface State {
@@ -64,7 +64,7 @@ class App extends React.Component<object, State> {
   addRepo = (e: Repository): void => {
     const { repos } = this.state
     this.setState({ repos: [...repos, e] }, () => {
-      console.log(this.state.repos)
+      console.log('current repos: ', this.state.repos)
     })
   }
 

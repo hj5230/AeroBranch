@@ -135,7 +135,7 @@ class LoginModal extends React.Component<Props, State> {
     })
       .then((pms) => pms.json())
       .then((jsn) => {
-        console.log(jsn)
+        console.log('jwt: ', jsn)
         if (!jsn.errno && jsn.token) {
           window.localStorage.setItem('jwt', jsn.token)
           onClose()

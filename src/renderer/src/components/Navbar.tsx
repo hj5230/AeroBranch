@@ -48,10 +48,10 @@ class Navbar extends React.Component<Props, State> {
     // if no update `repos`
     addRepo({
       id: Date.now(),
-      name: dir,
+      name: 'new local repo',
       fromAero: false
     })
-    // console.log(this.props.repos)
+    console.log(dir)
   }
 
   openSignOutNote = (): void => {
