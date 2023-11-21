@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { Row } from 'antd'
-import style from '../assets/index.module.less'
+import style from '@renderer/assets/index.module.less'
 
 interface Props {
   width?: number | string

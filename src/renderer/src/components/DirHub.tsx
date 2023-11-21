@@ -2,7 +2,7 @@ import React, { Key } from 'react'
 import { Row, Spin, Tree, Input } from 'antd'
 import type { DataNode } from 'antd/es/tree'
 import Panel from './Panel'
-import style from '../assets/index.module.less'
+import style from '@renderer/assets/index.module.less'
 
 const { DirectoryTree } = Tree
 

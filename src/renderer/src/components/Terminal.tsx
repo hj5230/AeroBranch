@@ -1,6 +1,6 @@
 import React from 'react'
 import Versions from './Versions'
-import style from '../assets/index.module.less'
+import style from '@renderer/assets/index.module.less'
 
 interface Command {
   command: string

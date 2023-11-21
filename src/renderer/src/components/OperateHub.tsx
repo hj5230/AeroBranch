@@ -8,7 +8,7 @@ import {
   CodeOutlined,
   SettingOutlined
 } from '@ant-design/icons'
-// import style from '../assets/index.module.less'
+// import style from '@renderer/assets/index.module.less'
 
 interface Props {
   windowWidth: number

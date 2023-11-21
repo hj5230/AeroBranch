@@ -3,7 +3,7 @@ import { Row, Col, Layout } from 'antd'
 import DirHub from './DirHub'
 import FileHub from './FileHub'
 import OperateHub from './OperateHub'
-import style from '../assets/index.module.less'
+import style from '@renderer/assets/index.module.less'
 
 const { Content } = Layout
 
