@@ -1,20 +1,19 @@
-interface File {
+interface TreeNode {
   name: string
   size: number
   createTime: Date
   modifyTime: Date
-  relative: string
+  children?: TreeNode[]
+  relative?: string
 }
 
-interface Directory {
-  name: string
-  size: number
-  createTime: Date
-  modifyTime: Date
+interface Directory extends TreeNode {
   children: TreeNode[]
 }
 
-type TreeNode = File | Directory
+interface File extends TreeNode {
+  relative: string
+}
 
 export default TreeNode
 export type { File, Directory }

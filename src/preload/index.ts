@@ -1,5 +1,6 @@
 import { ipcRenderer, contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import TreeNode from '../renderer/src/interfaces/TreeNode'
 
 // Custom APIs for renderer
 const api = {
@@ -9,7 +10,7 @@ const api = {
   getEnvServer: async (): Promise<string> => {
     return await ipcRenderer.invoke('get-env-server')
   },
-  openDirDialog: async (): Promise<object> => {
+  openDirDialog: async (): Promise<TreeNode | null> => {
     return await ipcRenderer.invoke('open-dir-dialog')
   }
 }

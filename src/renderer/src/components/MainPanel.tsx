@@ -1,5 +1,6 @@
 import React from 'react'
 import { Row, Col, Layout } from 'antd'
+import Repository from '@renderer/interfaces/Repository'
 import DirHub from './DirHub'
 import FileHub from './FileHub'
 import OperateHub from './OperateHub'
@@ -10,7 +11,8 @@ const { Content } = Layout
 interface Props {
   windowWidth: number
   windowHeight: number
-  repo: object[]
+  repos: Repository[]
+  currentRepo: Repository | null
   file: number | null
 }
 
@@ -29,7 +31,7 @@ class MainPanel extends React.Component<Props, State> {
 
   render(): React.ReactNode {
     const { whichFile } = this
-    const { windowWidth, windowHeight, repo } = this.props
+    const { repos, currentRepo, windowWidth, windowHeight } = this.props
     return (
       <>
         <Content className={style.page_content}>
@@ -40,7 +42,8 @@ class MainPanel extends React.Component<Props, State> {
               </Row>
               <Row>
                 <DirHub
-                  repo={repo}
+                  repos={repos}
+                  currentRepo={currentRepo}
                   whichFile={whichFile}
                   windowWidth={windowWidth}
                   windowHeight={windowHeight}

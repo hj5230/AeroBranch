@@ -4,6 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import dotenv from 'dotenv'
 import icon from '../../resources/icon.png?asset'
 import getDirTree from './utils'
+import TreeNode from '../renderer/src/interfaces/TreeNode'
 
 const os = require('os')
 
@@ -30,11 +31,11 @@ ipcMain.handle('get-env-server', async (): Promise<string> => {
   return process.env.SERVER || 'http://localhost:3000'
 })
 
-ipcMain.handle('open-dir-dialog', async (): Promise<object> => {
+ipcMain.handle('open-dir-dialog', async (): Promise<TreeNode | null> => {
   const res = await dialog.showOpenDialog({
     properties: ['openDirectory']
   })
-  if (res.canceled) return {}
+  if (res.canceled) return null
   else return getDirTree(res.filePaths[0])
 })
 

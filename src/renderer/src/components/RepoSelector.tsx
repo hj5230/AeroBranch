@@ -4,9 +4,9 @@ import style from '../assets/index.module.less'
 import Repository from '@renderer/interfaces/Repository'
 
 interface Props {
-  current: string | null
+  current: Repository | null
   repos: Repository[]
-  whichRepo: (e: string | null) => void
+  whichRepo: (e: Repository | null) => void
 }
 
 interface State {
@@ -29,9 +29,10 @@ class RepoSelector extends React.Component<Props, State> {
   }
 
   onSelectRepo = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-    const { whichRepo } = this.props
-    const { textContent } = e.currentTarget
-    whichRepo(textContent)
+    const { repos, whichRepo } = this.props
+    const { value } = e.currentTarget
+    const res = repos.filter((repo) => repo.id == parseInt(value))
+    whichRepo(res[0])
   }
 
   render(): React.ReactNode {
@@ -42,7 +43,7 @@ class RepoSelector extends React.Component<Props, State> {
       <>
         <Popover content="当前仓库介绍" placement="bottom" trigger="hover">
           <Button className={style.select_repo_btn} shape="round" onClick={onDrawerOpen}>
-            {current ? current : '选择文件仓库'}
+            {current ? current.name : '选择文件仓库'}
           </Button>
         </Popover>
         <Drawer placement="top" closable={false} open={drawerOpen} onClose={onDrawerClose}>

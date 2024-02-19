@@ -1,4 +1,5 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
+import TreeNode from '@renderer/interfaces/TreeNode'
 
 declare global {
   interface Window {
@@ -6,7 +7,7 @@ declare global {
     api: {
       getMacAddress: () => Promise<string>
       getEnvServer: () => Promise<string>
-      openDirDialog: () => Promise<object>
+      openDirDialog: () => Promise<TreeNode | null>
     }
   }
 }

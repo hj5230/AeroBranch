@@ -9,8 +9,8 @@ interface Props {
   user: string | null
   whichUser: (e: string | null) => void
   repos: Repository[]
-  currentRepo: string | null
-  whichRepo: (e: string | null) => void
+  currentRepo: Repository | null
+  whichRepo: (e: Repository | null) => void
   addRepo: (e: Repository) => void
 }
 
@@ -43,13 +43,15 @@ class Navbar extends React.Component<Props, State> {
     const { addRepo } = this.props
     const { openDirDialog } = window.api
     const dir = await openDirDialog()
-    if (!dir) return
+    if (!dir?.name) return
     // check if exists on cloud
     // if no update `repos`
     addRepo({
       id: Date.now(),
-      name: 'new local repo',
-      fromAero: false
+      name: `New local repository named "${dir.name}"`,
+      fromAero: false,
+      localPath: '',
+      files: dir
     })
     console.log(dir)
   }
