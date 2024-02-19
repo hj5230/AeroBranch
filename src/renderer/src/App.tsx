@@ -9,7 +9,7 @@ interface State {
   windowHeight: number
   user: string | null
   repos: Repository[]
-  currentRepo: number | null
+  currentRepo: string | null
 }
 
 class App extends React.Component<object, State> {
@@ -53,7 +53,7 @@ class App extends React.Component<object, State> {
     this.setState({ windowHeight: window.innerHeight })
   }
 
-  whichRepo = (e: number | null): void => {
+  whichRepo = (e: string | null): void => {
     this.setState({ currentRepo: e })
   }
 
@@ -64,7 +64,7 @@ class App extends React.Component<object, State> {
   addRepo = (e: Repository): void => {
     const { repos } = this.state
     this.setState({ repos: [...repos, e] }, () => {
-      console.log('current repos: ', this.state.repos)
+      // console.log('current repos: ', this.state.repos)
     })
   }
 

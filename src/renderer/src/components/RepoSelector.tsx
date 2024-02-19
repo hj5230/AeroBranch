@@ -4,9 +4,9 @@ import style from '../assets/index.module.less'
 import Repository from '@renderer/interfaces/Repository'
 
 interface Props {
-  current: number | null
+  current: string | null
   repos: Repository[]
-  whichRepo: (e: number) => void
+  whichRepo: (e: string | null) => void
 }
 
 interface State {
@@ -32,8 +32,8 @@ class RepoSelector extends React.Component<Props, State> {
 
   onSelectRepo = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
     const { whichRepo } = this.props
-    const { value } = e.currentTarget
-    whichRepo(parseInt(value))
+    const { textContent } = e.currentTarget
+    whichRepo(textContent)
   }
 
   render(): React.ReactNode {

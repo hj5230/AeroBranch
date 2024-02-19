@@ -9,8 +9,8 @@ interface Props {
   user: string | null
   whichUser: (e: string | null) => void
   repos: Repository[]
-  currentRepo: number | null
-  whichRepo: (e: number) => void
+  currentRepo: string | null
+  whichRepo: (e: string | null) => void
   addRepo: (e: Repository) => void
 }
 
