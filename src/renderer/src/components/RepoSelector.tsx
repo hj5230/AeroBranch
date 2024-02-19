@@ -20,8 +20,6 @@ class RepoSelector extends React.Component<Props, State> {
     repos: null
   }
 
-  componentDidMount = (): void => {}
-
   onDrawerOpen = (): void => {
     this.setState({ drawerOpen: true })
   }

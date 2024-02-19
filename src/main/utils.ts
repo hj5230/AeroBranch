@@ -7,7 +7,7 @@ const getDirTree = (dirPath: string, basePath: string = dirPath): TreeNode => {
   if (stats.isDirectory()) {
     const directory: Directory = {
       name: path.basename(dirPath),
-      size: 0, // Initial size, to be calculated
+      size: 0,
       createTime: new Date(stats.birthtime),
       modifyTime: new Date(stats.mtime),
       children: []
