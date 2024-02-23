@@ -1,9 +1,10 @@
 import React from 'react'
 import { Row, Col, Layout } from 'antd'
-import Repository from '@renderer/interfaces/Repository'
 import DirHub from './DirHub'
 import FileHub from './FileHub'
 import OperateHub from './OperateHub'
+import Repository from '@renderer/interfaces/Repository'
+import FileContent from '@renderer/interfaces/FileContent'
 import style from '@renderer/assets/index.module.less'
 
 const { Content } = Layout
@@ -13,24 +14,13 @@ interface Props {
   windowHeight: number
   repos: Repository[]
   currentRepo: Repository | null
-  file: number | null
+  file: number | FileContent | null
+  whichFile: (e: number | FileContent) => void
 }
 
-interface State {
-  file: number | null
-}
-
-class MainPanel extends React.Component<Props, State> {
-  state: State = {
-    file: null
-  }
-
-  whichFile = (e: number): void => {
-    this.setState({ file: e })
-  }
-
+class MainPanel extends React.Component<Props, object> {
   render(): React.ReactNode {
-    const { whichFile } = this
+    const { file, whichFile } = this.props
     const { repos, currentRepo, windowWidth, windowHeight } = this.props
     return (
       <>
@@ -51,7 +41,7 @@ class MainPanel extends React.Component<Props, State> {
               </Row>
             </Col>
             <Col span={20}>
-              <FileHub file={null} />
+              <FileHub file={file} />
             </Col>
           </Row>
         </Content>

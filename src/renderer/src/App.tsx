@@ -1,7 +1,8 @@
 import React from 'react'
-import Navbar from './components/Navbar'
-import MainPanel from './components/MainPanel'
+import Navbar from '@renderer/components/Navbar'
+import MainPanel from '@renderer/components/MainPanel'
 import Repository from '@renderer/interfaces/Repository'
+import FileContent from '@renderer/interfaces/FileContent'
 import './assets/App.css'
 
 interface State {
@@ -10,6 +11,7 @@ interface State {
   user: string | null
   repos: Repository[]
   currentRepo: Repository | null
+  file: number | FileContent | null
 }
 
 class App extends React.Component<object, State> {
@@ -17,20 +19,9 @@ class App extends React.Component<object, State> {
     windowWidth: window.innerWidth,
     windowHeight: window.innerHeight,
     user: null,
-    repos: [
-      // {
-      //   id: 1693933379,
-      //   name: 'Demo Repository',
-      //   fromAero: true,
-      //   description: 'the first repo instance as demo'
-      // },
-      // {
-      //   id: 1693936982,
-      //   name: 'Another Demo Repo',
-      //   fromAero: true
-      // }
-    ],
-    currentRepo: null
+    repos: [],
+    currentRepo: null,
+    file: null
   }
 
   componentDidMount = (): void => {
@@ -53,12 +44,16 @@ class App extends React.Component<object, State> {
     this.setState({ windowHeight: window.innerHeight })
   }
 
+  whichUser = (e: string | null): void => {
+    this.setState({ user: e })
+  }
+
   whichRepo = (e: Repository | null): void => {
     this.setState({ currentRepo: e })
   }
 
-  whichUser = (e: string | null): void => {
-    this.setState({ user: e })
+  whichFile = (e: number | FileContent): void => {
+    this.setState({ file: e })
   }
 
   addRepo = (e: Repository): void => {
@@ -73,8 +68,8 @@ class App extends React.Component<object, State> {
   }
 
   render(): React.ReactNode {
-    const { whichUser, whichRepo, addRepo } = this
-    const { windowHeight, windowWidth, user, repos, currentRepo } = this.state
+    const { whichUser, whichRepo, whichFile, addRepo } = this
+    const { windowHeight, windowWidth, user, repos, currentRepo, file } = this.state
     return (
       <>
         <Navbar
@@ -87,7 +82,8 @@ class App extends React.Component<object, State> {
         />
         <MainPanel
           repos={repos}
-          file={0}
+          file={file}
+          whichFile={whichFile}
           currentRepo={currentRepo}
           windowWidth={windowWidth}
           windowHeight={windowHeight}

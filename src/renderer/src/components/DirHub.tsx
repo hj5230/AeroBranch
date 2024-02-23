@@ -1,11 +1,13 @@
 import React, { Key } from 'react'
 import { Row, Spin, Tree, Input } from 'antd'
-import Repository from '@renderer/interfaces/Repository'
+import type { DataNode } from 'antd/es/tree'
 import Panel from './Panel'
-import style from '@renderer/assets/index.module.less'
+import type { NodeInfo } from '@renderer/interfaces/AntdInterfaces'
+import Repository from '@renderer/interfaces/Repository'
 import TreeNode from '@renderer/interfaces/TreeNode'
 import AntTreeNode, { isDirectory, isFile } from '@renderer/interfaces/AntTreeNode'
-import type { DataNode } from 'antd/es/tree'
+import FileContent from '@renderer/interfaces/FileContent'
+import style from '@renderer/assets/index.module.less'
 
 const { DirectoryTree } = Tree
 
@@ -14,7 +16,7 @@ interface Props {
   windowHeight: number
   repos: Repository[]
   currentRepo: Repository | null
-  whichFile: (e: number) => void
+  whichFile: (e: number | FileContent) => void
 }
 
 interface State {
@@ -34,9 +36,6 @@ class DirHub extends React.Component<Props, State> {
 
   componentDidMount = (): void => {
     const { updateDirTree } = this
-    // fetch()
-    //   .then(pms => pms.json())
-    //   .then(jsn => ...)
     this.setState({
       treeData: []
     })
@@ -52,9 +51,7 @@ class DirHub extends React.Component<Props, State> {
   updateDirTree = (): void => {
     const { currentRepo } = this.props
     if (currentRepo?.files) {
-      console.log(currentRepo.files)
       const treeData = this.convertToAntDirectoryTree(currentRepo.files)
-      console.log(treeData)
       this.setState({ treeData: [treeData] })
     }
   }
@@ -65,7 +62,6 @@ class DirHub extends React.Component<Props, State> {
     const treeNode: AntTreeNode = {
       title: node.name,
       key: baseKey
-      // icon: <CarryOutOutlined />,
     }
     if (isDirectory(node)) {
       treeNode.children = node.children.map((childNode, index) =>
@@ -118,8 +114,41 @@ class DirHub extends React.Component<Props, State> {
     })
   }
 
+  findFilePath = (fileName: string, node: TreeNode, basePath: string): string => {
+    const { findFilePath } = this
+    if (node.relative && node.name === fileName) {
+      return `${basePath}/${node.relative}`
+    }
+    if (node.children && node.children.length > 0) {
+      for (const child of node.children) {
+        const filePath = findFilePath(fileName, child, basePath)
+        if (filePath) {
+          return filePath
+        }
+      }
+    }
+    return ''
+  }
+
+  handleSelectFile = async (_: Key[], info: NodeInfo): Promise<void> => {
+    const { findFilePath } = this
+    const { currentRepo, whichFile } = this.props
+    const { getDirectoryContent } = window.api
+    // only accept leafs(files), and only when title is pure string
+    if (
+      !info.node.isLeaf ||
+      typeof info.node.title !== 'string' ||
+      !currentRepo?.files ||
+      !currentRepo?.localPath
+    )
+      return
+    const filePath = findFilePath(info.node.title, currentRepo?.files, currentRepo?.localPath)
+    const fileContent = await getDirectoryContent(filePath)
+    whichFile(fileContent)
+  }
+
   render(): React.ReactNode {
-    const { handleInputChange, handleExpand } = this
+    const { handleInputChange, handleExpand, handleSelectFile } = this
     const { windowHeight } = this.props
     const { treeData, search, autoExpandParent, expandedKeys } = this.state
     return (
@@ -141,6 +170,7 @@ class DirHub extends React.Component<Props, State> {
                   showLine
                   treeData={treeData}
                   onExpand={handleExpand}
+                  onSelect={handleSelectFile}
                   autoExpandParent={autoExpandParent}
                   expandedKeys={expandedKeys}
                 />

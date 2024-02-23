@@ -1,6 +1,7 @@
 import { ipcRenderer, contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import TreeNode from '../renderer/src/interfaces/TreeNode'
+import FileContent from '../renderer/src/interfaces/FileContent'
 
 // Custom APIs for renderer
 const api = {
@@ -12,6 +13,9 @@ const api = {
   },
   openDirDialog: async (): Promise<TreeNode | null> => {
     return await ipcRenderer.invoke('open-dir-dialog')
+  },
+  getDirectoryContent: async (filePath: string): Promise<FileContent> => {
+    return await ipcRenderer.invoke('get-directory-content', filePath)
   }
 }
 

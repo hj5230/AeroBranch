@@ -1,10 +1,13 @@
 import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
-import { join, resolve } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import icon from '../../resources/icon.webp?asset'
 import dotenv from 'dotenv'
-import icon from '../../resources/icon.png?asset'
+import * as fs from 'fs'
+import * as path from 'path'
+import { join, resolve } from 'path'
 import getDirTree from './utils'
 import TreeNode from '../renderer/src/interfaces/TreeNode'
+import FileContent from '../renderer/src/interfaces/FileContent'
 
 const os = require('os')
 
@@ -37,6 +40,32 @@ ipcMain.handle('open-dir-dialog', async (): Promise<TreeNode | null> => {
   })
   if (res.canceled) return null
   else return getDirTree(res.filePaths[0])
+})
+
+ipcMain.handle('get-directory-content', async (_, filePath: string): Promise<FileContent> => {
+  const ext = path.extname(filePath).toLowerCase()
+  try {
+    if (ext === '' || ext === '.txt' || ext === '.md') {
+      // process text file (extnames undone)
+      const content = fs.readFileSync(filePath, 'utf-8')
+      return { type: 'text', content }
+    } else if (
+      ext === '.png' ||
+      ext === '.jpg' ||
+      ext === '.jpeg' ||
+      ext === '.webp' ||
+      ext === '.pdf'
+    ) {
+      // process binary file (extnames undone)
+      const content = fs.readFileSync(filePath).toString('base64')
+      return { type: 'binary', ext, content }
+    } else {
+      return { type: 'unsupported' }
+    }
+  } catch (error) {
+    console.error('File read error:', error)
+    throw error
+  }
 })
 
 function createWindow(): void {
