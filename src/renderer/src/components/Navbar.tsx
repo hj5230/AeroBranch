@@ -48,12 +48,11 @@ class Navbar extends React.Component<Props, State> {
     // if no update `repos`
     addRepo({
       id: Date.now(),
-      name: `New local repository named "${dir.name}"`,
+      name: `新的本地仓库 "${dir.name}"`,
       fromAero: false,
-      localPath: '',
+      localPath: dir.base,
       files: dir
     })
-    console.log(dir)
   }
 
   openSignOutNote = (): void => {

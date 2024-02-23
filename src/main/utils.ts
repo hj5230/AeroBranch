@@ -8,6 +8,7 @@ const getDirTree = (dirPath: string, basePath: string = dirPath): TreeNode => {
     const directory: Directory = {
       name: path.basename(dirPath),
       size: 0,
+      base: dirPath,
       createTime: new Date(stats.birthtime),
       modifyTime: new Date(stats.mtime),
       children: []

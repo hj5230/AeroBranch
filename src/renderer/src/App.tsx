@@ -18,17 +18,17 @@ class App extends React.Component<object, State> {
     windowHeight: window.innerHeight,
     user: null,
     repos: [
-      {
-        id: 1693933379,
-        name: 'Demo Repository',
-        fromAero: true,
-        description: 'the first repo instance as demo'
-      },
-      {
-        id: 1693936982,
-        name: 'Another Demo Repo',
-        fromAero: true
-      }
+      // {
+      //   id: 1693933379,
+      //   name: 'Demo Repository',
+      //   fromAero: true,
+      //   description: 'the first repo instance as demo'
+      // },
+      // {
+      //   id: 1693936982,
+      //   name: 'Another Demo Repo',
+      //   fromAero: true
+      // }
     ],
     currentRepo: null
   }

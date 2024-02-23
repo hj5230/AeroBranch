@@ -3,11 +3,13 @@ interface TreeNode {
   size: number
   createTime: Date
   modifyTime: Date
+  base?: string
   children?: TreeNode[]
   relative?: string
 }
 
 interface Directory extends TreeNode {
+  base?: string
   children: TreeNode[]
 }
 
