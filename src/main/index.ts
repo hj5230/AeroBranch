@@ -31,7 +31,7 @@ ipcMain.handle('get-mac-address', async (): Promise<string> => {
 })
 
 ipcMain.handle('get-env-server', async (): Promise<string> => {
-  return process.env.SERVER || 'http://localhost:3000'
+  return process.env.SERVER || 'localhost:3000'
 })
 
 ipcMain.handle('open-dir-dialog', async (): Promise<TreeNode | null> => {

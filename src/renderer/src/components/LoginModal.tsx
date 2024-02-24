@@ -86,9 +86,10 @@ class LoginModal extends React.Component<Props, State> {
       },
       () => {
         const { serverUrl, macAddr } = this.state
-        fetch(`${serverUrl}/login/verify/${macAddr}`)
+        fetch(`http://${serverUrl}/login/verify/${macAddr}`)
           .then((pms) => pms.json())
           .then((jsn) => this.setState({ macOk: jsn.macOk }))
+        // .then((e) => console.log(e))
       }
     )
   }
@@ -125,7 +126,7 @@ class LoginModal extends React.Component<Props, State> {
     const { openLoggedInNote, openPasswordNotMatchNote } = this
     const { onClose, whichUser } = this.props
     const { serverUrl, password, macAddr } = this.state
-    fetch(`${serverUrl}/login/sign`, {
+    fetch(`http://${serverUrl}/login/sign`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
