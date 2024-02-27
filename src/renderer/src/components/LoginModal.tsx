@@ -89,7 +89,6 @@ class LoginModal extends React.Component<Props, State> {
         fetch(`http://${serverUrl}/login/verify/${macAddr}`)
           .then((pms) => pms.json())
           .then((jsn) => this.setState({ macOk: jsn.macOk }))
-        // .then((e) => console.log(e))
       }
     )
   }
@@ -136,7 +135,6 @@ class LoginModal extends React.Component<Props, State> {
     })
       .then((pms) => pms.json())
       .then((jsn) => {
-        console.log('jwt: ', jsn)
         if (!jsn.errno && jsn.token) {
           window.localStorage.setItem('jwt', jsn.token)
           onClose()
