@@ -10,6 +10,7 @@ declare global {
       getEnvServer: () => Promise<string>
       openDirDialog: () => Promise<TreeNode | null>
       getDirectoryContent: (filePath: string) => Promise<FileContent>
+      syncRepository: (dirPath: string) => Promise<object>
     }
   }
 }

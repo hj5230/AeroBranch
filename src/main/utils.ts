@@ -31,4 +31,10 @@ const getDirTree = (dirPath: string, basePath: string = dirPath): TreeNode => {
   }
 }
 
+// const createOrReplaceAero = (dirPath: string): void => {}
+// const createOrReplaceConfig = (dirPath: string): void => {}
+// const filesToChunks = (dirPath: string): void => {}
+// const compareDifference = (dirPath: string): void => {}
+// const syncChanges = (dirPath: string): void => {}
+
 export default getDirTree

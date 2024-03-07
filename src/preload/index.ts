@@ -16,6 +16,9 @@ const api = {
   },
   getDirectoryContent: async (filePath: string): Promise<FileContent> => {
     return await ipcRenderer.invoke('get-directory-content', filePath)
+  },
+  syncRepository: async (dirPath: string): Promise<object> => {
+    return await ipcRenderer.invoke('sync-repository-changes', dirPath)
   }
 }
 
