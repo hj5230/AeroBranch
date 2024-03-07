@@ -41,3 +41,7 @@ $ yarn build:mac
 # Linux
 $ yarn build:linux
 ```
+
+1. Search function in operatehub dose not work
+2. text file and binary file cannot properly display in filehub
+3. sync function noy yet implemented
