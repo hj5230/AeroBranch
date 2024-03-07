@@ -40,19 +40,22 @@ class Navbar extends React.Component<Props, State> {
   }
 
   handleSelectLocalDir = async (): Promise<void> => {
-    const { addRepo } = this.props
+    const { addRepo, whichRepo } = this.props
     const { openDirDialog } = window.api
     const dir = await openDirDialog()
     if (!dir?.name) return
     // check if exists on cloud
     // if no update `repos`
-    addRepo({
+    // Confusing logic, select Repo with id since allocated
+    const newLocalRepo = {
       id: Date.now(),
       name: `新的本地仓库 "${dir.name}"`,
       fromAero: false,
       localPath: dir.base,
       files: dir
-    })
+    }
+    addRepo(newLocalRepo)
+    whichRepo(newLocalRepo)
   }
 
   openSignOutNote = (): void => {

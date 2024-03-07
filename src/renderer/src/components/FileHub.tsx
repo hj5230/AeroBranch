@@ -10,6 +10,8 @@ interface State {
   displayContent: ReactNode
 }
 
+// File content loading: text files wont load to the end of the file, large PDFs cannot load properly
+// Less setting needed, currently it didn't display in correct format
 class FileHub extends React.Component<Props, State> {
   state: State = {
     displayContent: <></>
