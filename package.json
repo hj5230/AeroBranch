@@ -28,6 +28,7 @@
     "dotenv": "^16.3.1",
     "electron-updater": "^6.1.1",
     "less": "^4.2.0",
+    "postcss": "^8.4.31",
     "react-router-dom": "^6.15.0"
   },
   "devDependencies": {
