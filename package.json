@@ -23,6 +23,7 @@
     "@electron-toolkit/preload": "^2.0.0",
     "@electron-toolkit/utils": "^2.0.0",
     "antd": "^5.8.6",
+    "app-builder-lib": "^24.13.2",
     "dotenv": "^16.3.1",
     "electron-updater": "^6.1.1",
     "less": "^4.2.0",
@@ -45,6 +46,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^5.1.6",
-    "vite": "^4.4.9"
+    "vite": "^4.5.2"
   }
 }

@@ -15,6 +15,11 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
-    plugins: [react()]
+    plugins: [react()],
+    server: {
+      fs: {
+        deny: ['.env', '.env.*', '*.{crt,pem}', 'custom.secret']
+      }
+    }
   }
 })
