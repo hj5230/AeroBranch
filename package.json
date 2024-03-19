@@ -27,6 +27,7 @@
     "app-builder-lib": "^24.13.2",
     "dotenv": "^16.3.1",
     "electron-updater": "^6.1.1",
+    "js-yaml": "^4.1.0",
     "less": "^4.2.0",
     "postcss": "^8.4.31",
     "react-router-dom": "^6.15.0"
