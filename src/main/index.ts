@@ -2,14 +2,10 @@ import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.webp?asset'
 import dotenv from 'dotenv'
-import * as fs from 'fs'
-import * as path from 'path'
 import { join, resolve } from 'path'
-import getDirTree from './utils'
+import { getMacAddress, getDirTree, getDirContent } from './utils'
 import TreeNode from '../renderer/src/interfaces/TreeNode'
 import FileContent from '../renderer/src/interfaces/FileContent'
-
-const os = require('os') // convert to import module
 
 dotenv.config({
   path: resolve(__dirname, '../../.env'),
@@ -18,16 +14,7 @@ dotenv.config({
 }).parsed
 
 ipcMain.handle('get-mac-address', async (): Promise<string> => {
-  const networkInterfaces = os.networkInterfaces()
-  let macAddress: string | undefined
-  for (const interfaceKey in networkInterfaces) {
-    const networkInterface = networkInterfaces[interfaceKey]
-    if (networkInterface[0] && networkInterface[0].mac && !networkInterface[0].internal) {
-      macAddress = networkInterface[0].mac
-      break
-    }
-  }
-  return macAddress || 'unknown'
+  return getMacAddress()
 })
 
 ipcMain.handle('get-env-server', async (): Promise<string> => {
@@ -43,29 +30,7 @@ ipcMain.handle('open-dir-dialog', async (): Promise<TreeNode | null> => {
 })
 
 ipcMain.handle('get-directory-content', async (_, filePath: string): Promise<FileContent> => {
-  const ext = path.extname(filePath).toLowerCase()
-  try {
-    if (ext === '' || ext === '.txt' || ext === '.md') {
-      // process text file (extnames undone)
-      const content = fs.readFileSync(filePath, 'utf-8')
-      return { type: 'text', content }
-    } else if (
-      ext === '.png' ||
-      ext === '.jpg' ||
-      ext === '.jpeg' ||
-      ext === '.webp' ||
-      ext === '.pdf'
-    ) {
-      // process binary file (extnames undone)
-      const content = fs.readFileSync(filePath).toString('base64')
-      return { type: 'binary', ext, content }
-    } else {
-      return { type: 'unsupported' }
-    }
-  } catch (error) {
-    console.error('File read error:', error)
-    throw error
-  }
+  return getDirContent(filePath)
 })
 
 // Apart from this, channel for each step within is needed for manual operations via cli
