@@ -28,7 +28,11 @@ class MainPanel extends React.Component<Props, object> {
           <Row gutter={[5, 0]}>
             <Col span={4}>
               <Row>
-                <OperateHub windowWidth={windowWidth} windowHeight={windowHeight} />
+                <OperateHub
+                  windowWidth={windowWidth}
+                  windowHeight={windowHeight}
+                  currentRepo={currentRepo}
+                />
               </Row>
               <Row>
                 <DirHub

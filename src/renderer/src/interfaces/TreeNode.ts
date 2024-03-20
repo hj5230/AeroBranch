@@ -9,7 +9,7 @@ interface TreeNode {
 }
 
 interface Directory extends TreeNode {
-  base?: string
+  base: string
   children: TreeNode[]
 }
 
