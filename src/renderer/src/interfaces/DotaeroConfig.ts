@@ -3,10 +3,10 @@ import TreeNode from '@renderer/interfaces/TreeNode'
 interface DotaeroConfig {
   userId: number
   macAddress: string
-  hashedpass: string
+  hashedPass: string
   createTime: number
   lastModified: number
-  description: string
+  description?: string
   structure: TreeNode
 }
 

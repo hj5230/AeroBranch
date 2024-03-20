@@ -7,10 +7,11 @@ declare global {
     electron: ElectronAPI
     api: {
       getMacAddress: () => Promise<string>
-      getEnvServer: () => Promise<string>
       openDirDialog: () => Promise<TreeNode | null>
       getDirectoryContent: (filePath: string) => Promise<FileContent>
-      syncRepository: (dirPath: string) => Promise<object>
+      readConfigData: (dirPath: string) => Promise<DotaeroConfig>
+      dotaeroOrInit: (dirPath: string, configData: DotaeroConfig) => Promise<void>
+      // syncRepository: (dirPath: string) => Promise<object>
     }
   }
 }

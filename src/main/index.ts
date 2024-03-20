@@ -3,9 +3,10 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.webp?asset'
 import dotenv from 'dotenv'
 import { join, resolve } from 'path'
-import { getMacAddress, getDirTree, getDirContent } from './utils'
+import { getMacAddress, getDirTree, getDirContent, readConfigData, dotaeroOrInit } from './utils'
 import TreeNode from '../renderer/src/interfaces/TreeNode'
 import FileContent from '../renderer/src/interfaces/FileContent'
+import DotaeroConfig from '../renderer/src/interfaces/DotaeroConfig'
 
 dotenv.config({
   path: resolve(__dirname, '../../.env'),
@@ -15,10 +16,6 @@ dotenv.config({
 
 ipcMain.handle('get-mac-address', async (): Promise<string> => {
   return getMacAddress()
-})
-
-ipcMain.handle('get-env-server', async (): Promise<string> => {
-  return process.env.SERVER || 'localhost:3000'
 })
 
 ipcMain.handle('open-dir-dialog', async (): Promise<TreeNode | null> => {
@@ -32,6 +29,17 @@ ipcMain.handle('open-dir-dialog', async (): Promise<TreeNode | null> => {
 ipcMain.handle('get-directory-content', async (_, filePath: string): Promise<FileContent> => {
   return getDirContent(filePath)
 })
+
+ipcMain.handle('read-config-data', async (_, dirPath: string): Promise<DotaeroConfig> => {
+  return readConfigData(dirPath)
+})
+
+ipcMain.handle(
+  'dotaero-or-init',
+  async (_, dirPath: string, configData: DotaeroConfig): Promise<void> => {
+    return dotaeroOrInit(dirPath, configData)
+  }
+)
 
 // Apart from this, channel for each step within is needed for manual operations via cli
 // ipcMain.handle('sync-repository-changes', async (_, dirPath: string): Promise<object> => {})

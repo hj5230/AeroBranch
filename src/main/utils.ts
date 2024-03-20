@@ -2,6 +2,7 @@
 import fs from 'fs'
 import path from 'path'
 import yaml from 'js-yaml'
+// import crypto, { generateKey } from 'crypto'
 import TreeNode, { File, Directory } from '../renderer/src/interfaces/TreeNode'
 import FileContent from '../renderer/src/interfaces/FileContent'
 import DotaeroConfig from '../renderer/src/interfaces/DotaeroConfig'
@@ -23,7 +24,7 @@ const getMacAddress = (): string => {
 
 const getDirTree = (dirPath: string, basePath: string = dirPath): TreeNode => {
   const stats = fs.statSync(dirPath)
-  if (stats.isDirectory()) {
+  if (stats.isDirectory() && path.basename(dirPath) !== '.aero') {
     const directory: Directory = {
       name: path.basename(dirPath),
       size: 0,
@@ -76,11 +77,18 @@ const getDirContent = (filePath: string): FileContent => {
   }
 }
 
-const readConfigData = (dirPath: string): DotaeroConfig | null => {
+const readConfigData = (dirPath: string): DotaeroConfig => {
   const configPath = path.join(dirPath, '.aero/config.yaml')
   if (fs.existsSync(configPath))
     return yaml.load(fs.readFileSync(configPath, 'utf-8')) as DotaeroConfig
-  return null
+  return {
+    userId: -1,
+    macAddress: '',
+    hashedPass: '',
+    createTime: -1,
+    lastModified: -1,
+    structure: {}
+  }
 }
 
 const dotaeroOrInit = (dirPath: string, configData: DotaeroConfig): void => {
@@ -99,7 +107,12 @@ const dotaeroOrInit = (dirPath: string, configData: DotaeroConfig): void => {
   fs.writeFileSync(configPath, yaml.dump(config))
 }
 
-// const filesToChunks = (dirPath: string): void => {}
+// const encryptAndChunk = (dirPath: string, chunkSize: number = 5 * 1024 * 1024): void => {
+//   const fileBuffer = fs.readFileSync(filePath)
+//   const key = crypto.scryptSync(encryptionKey, 'salt', 32)
+//   const iv = crypto.randomBytes(16)
+// }
+
 // const compareDifference = (dirPath: string): void => {}
 // const syncChanges = (dirPath: string): void => {}
 
