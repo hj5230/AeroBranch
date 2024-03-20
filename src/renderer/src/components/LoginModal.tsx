@@ -1,9 +1,8 @@
 import React from 'react'
+import { verifyMacAddress } from '@renderer/service/user'
 import { Modal, Form, Input, Button, Space, Badge, notification } from 'antd'
 import type { NotificationPlacement } from 'antd/es/notification/interface'
 import { LoadingOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons'
-
-const { getMacAddress, getEnvServer } = window.api
 
 const { Item } = Form
 const { Password } = Input
@@ -32,7 +31,6 @@ interface Props {
 }
 
 interface State {
-  serverUrl: string
   macAddr: string
   ipAddr: string
   password: string
@@ -42,7 +40,6 @@ interface State {
 
 class LoginModal extends React.Component<Props, State> {
   state: State = {
-    serverUrl: '',
     macAddr: '',
     ipAddr: '',
     password: '',
@@ -79,18 +76,22 @@ class LoginModal extends React.Component<Props, State> {
   }
 
   componentDidMount = async (): Promise<void> => {
-    this.setState(
-      {
-        serverUrl: await getEnvServer(),
-        macAddr: await getMacAddress()
-      },
-      () => {
-        const { serverUrl, macAddr } = this.state
-        fetch(`http://${serverUrl}/login/verify/${macAddr}`)
-          .then((pms) => pms.json())
-          .then((jsn) => this.setState({ macOk: jsn.macOk }))
-      }
-    )
+    const { getMacAddress } = window.api
+    // this.setState(
+    //   {
+    //     serverUrl: await getEnvServer(),
+    //     macAddr: await getMacAddress()
+    //   },
+    //   () => {
+    //     const { serverUrl, macAddr } = this.state
+    //     fetch(`http://${serverUrl}/login/verify/${macAddr}`)
+    //       .then((pms) => pms.json())
+    //       .then((jsn) => this.setState({ macOk: jsn.macOk }))
+    //   }
+    // )
+    const macAddr = await getMacAddress()
+    const macOk = await verifyMacAddress(macAddr)
+    this.setState({ macAddr, macOk })
   }
 
   componentDidUpdate = (): void => {
@@ -124,8 +125,8 @@ class LoginModal extends React.Component<Props, State> {
   handleSubmit = async (): Promise<void> => {
     const { openLoggedInNote, openPasswordNotMatchNote } = this
     const { onClose, whichUser } = this.props
-    const { serverUrl, password, macAddr } = this.state
-    fetch(`http://${serverUrl}/login/sign`, {
+    const { password, macAddr } = this.state
+    fetch(`http://localhost:9999/user/sign`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
