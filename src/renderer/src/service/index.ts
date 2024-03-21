@@ -14,23 +14,33 @@ const REQUEST: RESTfulService = {
   server: 'localhost:9999'
 }
 
-export const get = async (route: string): Promise<object> => {
-  const response = await fetch(`${REQUEST.protocol}://${REQUEST.server}/${route}`)
+export const get = async (
+  route: string,
+  jwt?: string,
+  contentType: string = 'application/json'
+): Promise<object> => {
+  console.log(jwt)
+  const response = await fetch(`${REQUEST.protocol}://${REQUEST.server}/${route}`, {
+    headers: {
+      Authorization: `bearer ${jwt}`,
+      'Content-Type': contentType
+    }
+  })
   const result = await response.json()
   return result
 }
 
 export const post = async (
   route: string,
-  body: JSON,
-  jwt: string,
+  body: object,
+  jwt?: string,
   contentType: string = 'application/json'
 ): Promise<JSON> => {
   const response = await fetch(`${REQUEST.protocol}://${REQUEST.server}/${route}`, {
     method: 'POST',
     headers: {
-      'Content-Type': contentType,
-      Authorization: `bearer ${jwt}`
+      Authorization: `bearer ${jwt}`,
+      'Content-Type': contentType
     },
     body: JSON.stringify(body)
   })
