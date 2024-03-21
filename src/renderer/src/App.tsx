@@ -5,6 +5,8 @@ import Repository from '@renderer/interfaces/Repository'
 import FileContent from '@renderer/interfaces/FileContent'
 import './assets/App.css'
 
+import { verifyJwt } from '@renderer/service/user'
+
 interface State {
   windowWidth: number
   windowHeight: number
@@ -24,10 +26,15 @@ class App extends React.Component<object, State> {
     file: null
   }
 
-  componentDidMount = (): void => {
+  componentDidMount = async (): Promise<void> => {
     const { updateWidth, updateHeight } = this
     window.addEventListener('resize', updateWidth)
     window.addEventListener('resize', updateHeight)
+
+    const jwt = await verifyJwt()
+    if (jwt) {
+      this.setState({ user: jwt.username })
+    }
   }
 
   componentWillUnmount = (): void => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { verifyMacAddress } from '@renderer/service/user'
+import { verifyMacAddress, signIn } from '@renderer/service/user'
 import { Modal, Form, Input, Button, Space, Badge, notification } from 'antd'
 import type { NotificationPlacement } from 'antd/es/notification/interface'
 import { LoadingOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons'
@@ -77,18 +77,6 @@ class LoginModal extends React.Component<Props, State> {
 
   componentDidMount = async (): Promise<void> => {
     const { getMacAddress } = window.api
-    // this.setState(
-    //   {
-    //     serverUrl: await getEnvServer(),
-    //     macAddr: await getMacAddress()
-    //   },
-    //   () => {
-    //     const { serverUrl, macAddr } = this.state
-    //     fetch(`http://${serverUrl}/login/verify/${macAddr}`)
-    //       .then((pms) => pms.json())
-    //       .then((jsn) => this.setState({ macOk: jsn.macOk }))
-    //   }
-    // )
     const macAddr = await getMacAddress()
     const macOk = await verifyMacAddress(macAddr)
     this.setState({ macAddr, macOk })
@@ -125,25 +113,15 @@ class LoginModal extends React.Component<Props, State> {
   handleSubmit = async (): Promise<void> => {
     const { openLoggedInNote, openPasswordNotMatchNote } = this
     const { onClose, whichUser } = this.props
-    const { password, macAddr } = this.state
-    fetch(`http://localhost:9999/user/sign`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        macAddr: macAddr,
-        password: password
-      })
-    })
-      .then((pms) => pms.json())
-      .then((jsn) => {
-        if (!jsn.errno && jsn.token) {
-          window.localStorage.setItem('jwt', jsn.token)
-          onClose()
-          whichUser(jsn.username)
-          openLoggedInNote('bottom', jsn.username)
-        } else if (jsn.errno === 'PWDNM') openPasswordNotMatchNote('bottom')
-        else if (jsn.errno === 'USRNF') this.setState({ macOk: false })
-      })
+    const { macAddr, password } = this.state
+    const response = await signIn(macAddr, password)
+    if (!response.errno && response.token) {
+      window.localStorage.setItem('jwt', response.token)
+      onClose()
+      whichUser(response.username)
+      openLoggedInNote('bottom', response.username)
+    } else if (response.errno === 'PWDNM') openPasswordNotMatchNote('bottom')
+    else if (response.errno === 'USRNF') this.setState({ macOk: false })
   }
 
   render(): React.ReactNode {
