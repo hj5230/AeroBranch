@@ -41,6 +41,8 @@ ipcMain.handle(
   }
 )
 
+// ipcMain.handle('split-and-encrypt', async () )
+
 // Apart from this, channel for each step within is needed for manual operations via cli
 // ipcMain.handle('sync-repository-changes', async (_, dirPath: string): Promise<object> => {})
 
