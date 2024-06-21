@@ -1,11 +1,15 @@
 import { ipcRenderer, contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import TreeNode from '../renderer/src/interfaces/TreeNode'
-import FileContent from '../renderer/src/interfaces/FileContent'
-import DotaeroConfig from '../renderer/src/interfaces/DotaeroConfig'
+import EnvSchema from '../shared/interface/EnvInterface'
+import TreeNode from '../shared/interface/TreeNode'
+import FileContent from '../shared/interface/FileContent'
+import DotaeroConfig from '../shared/interface/DotaeroConfig'
 
 // Custom APIs for renderer
 const api = {
+  getEnvData: async (): Promise<EnvSchema> => {
+    return await ipcRenderer.invoke('get-env-data')
+  },
   getMacAddress: async (): Promise<string> => {
     return await ipcRenderer.invoke('get-mac-address')
   },

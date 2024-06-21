@@ -1,4 +1,5 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
+import EnvSchema from '@interface/EnvInterface'
 import FileContent from '@interface/FileContent'
 import TreeNode from '@interface/TreeNode'
 
@@ -6,6 +7,7 @@ declare global {
   interface Window {
     electron: ElectronAPI
     api: {
+      getEnvData: () => Promise<EnvSchema>
       getMacAddress: () => Promise<string>
       openDirDialog: () => Promise<TreeNode | null>
       getDirectoryContent: (filePath: string) => Promise<FileContent>

@@ -3,9 +3,9 @@ import fs from 'fs'
 import path from 'path'
 import yaml from 'js-yaml'
 // import crypto, { generateKey } from 'crypto'
-import TreeNode, { File, Directory } from '../renderer/src/interfaces/TreeNode'
-import FileContent from '../renderer/src/interfaces/FileContent'
-import DotaeroConfig from '../renderer/src/interfaces/DotaeroConfig'
+import TreeNode, { File, Directory } from '../shared/interface/TreeNode'
+import FileContent from '../shared/interface/FileContent'
+import DotaeroConfig from '../shared/interface/DotaeroConfig'
 
 const os = require('os')
 

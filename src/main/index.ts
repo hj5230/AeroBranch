@@ -4,15 +4,20 @@ import icon from '../../resources/icon.webp?asset'
 import dotenv from 'dotenv'
 import { join, resolve } from 'path'
 import { getMacAddress, getDirTree, getDirContent, readConfigData, dotaeroOrInit } from './utils'
-import TreeNode from '../renderer/src/interfaces/TreeNode'
-import FileContent from '../renderer/src/interfaces/FileContent'
-import DotaeroConfig from '../renderer/src/interfaces/DotaeroConfig'
+import TreeNode from '../shared/interface/TreeNode'
+import FileContent from '../shared/interface/FileContent'
+import DotaeroConfig from '../shared/interface/DotaeroConfig'
+import EnvSchema from '../shared/interface/EnvInterface'
 
 dotenv.config({
   path: resolve(__dirname, '../../.env'),
   encoding: 'utf8',
   debug: false
 }).parsed
+
+ipcMain.handle('get-env-data', async (): Promise<EnvSchema> => {
+  return process.env as unknown as EnvSchema
+})
 
 ipcMain.handle('get-mac-address', async (): Promise<string> => {
   return getMacAddress()
