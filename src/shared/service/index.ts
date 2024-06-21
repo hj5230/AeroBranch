@@ -1,5 +1,5 @@
 // import dotenv from 'dotenv'
-import RESTfulService from '../../renderer/src/interfaces/RESTfulService'
+import RESTfulService from '../interface/RESTfulService'
 
 // dotenv.config({
 //   path: '../../../.env',

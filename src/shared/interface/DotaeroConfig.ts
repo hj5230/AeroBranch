@@ -1,4 +1,4 @@
-import TreeNode from '@renderer/interfaces/TreeNode'
+import TreeNode from '@interface/TreeNode'
 
 interface DotaeroConfig {
   userId: number
