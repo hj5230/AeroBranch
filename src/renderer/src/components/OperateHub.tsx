@@ -8,8 +8,8 @@ import {
   CodeOutlined,
   SettingOutlined
 } from '@ant-design/icons'
-import Repository from '@renderer/interfaces/Repository'
-// import DotaeroConfig from '@renderer/interfaces/DotaeroConfig'
+import Repository from '@interface/Repository'
+// import DotaeroConfig from '@interface/DotaeroConfig'
 
 interface Props {
   windowWidth: number

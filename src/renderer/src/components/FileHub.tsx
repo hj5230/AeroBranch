@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import Panel from './Panel'
-import FileContent from '@renderer/interfaces/FileContent'
+import FileContent from '@interface/FileContent'
 
 interface Props {
   file: number | FileContent | null

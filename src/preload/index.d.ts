@@ -1,6 +1,6 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
-import FileContent from '@renderer/interfaces/FileContent'
-import TreeNode from '@renderer/interfaces/TreeNode'
+import FileContent from '@interface/FileContent'
+import TreeNode from '@interface/TreeNode'
 
 declare global {
   interface Window {

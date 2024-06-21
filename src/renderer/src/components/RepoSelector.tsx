@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Button, Drawer, Spin, Popover } from 'antd'
 import style from '../assets/index.module.less'
-import Repository from '@renderer/interfaces/Repository'
+import Repository from '@interface/Repository'
 
 interface Props {
   current: Repository | null

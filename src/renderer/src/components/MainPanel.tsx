@@ -3,8 +3,8 @@ import { Row, Col, Layout } from 'antd'
 import DirHub from './DirHub'
 import FileHub from './FileHub'
 import OperateHub from './OperateHub'
-import Repository from '@renderer/interfaces/Repository'
-import FileContent from '@renderer/interfaces/FileContent'
+import Repository from '@interface/Repository'
+import FileContent from '@interface/FileContent'
 import style from '@renderer/assets/index.module.less'
 
 const { Content } = Layout

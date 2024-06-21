@@ -1,5 +1,5 @@
 import React from 'react'
-import { verifyMacAddress, signIn } from '@renderer/service/user'
+import { verifyMacAddress, signIn } from '@service/user'
 import { Modal, Form, Input, Button, Space, Badge, notification } from 'antd'
 import type { NotificationPlacement } from 'antd/es/notification/interface'
 import { LoadingOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons'

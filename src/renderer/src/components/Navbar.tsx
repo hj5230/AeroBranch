@@ -2,7 +2,7 @@ import React from 'react'
 import { Row, Col, Button, Popover, Divider, notification } from 'antd'
 import RepoSelector from './RepoSelector'
 import LoginModal from './LoginModal'
-import Repository from '@renderer/interfaces/Repository'
+import Repository from '@interface/Repository'
 import style from '@renderer/assets/index.module.less'
 
 interface Props {

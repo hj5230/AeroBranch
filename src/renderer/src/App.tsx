@@ -1,11 +1,11 @@
 import React from 'react'
 import Navbar from '@renderer/components/Navbar'
 import MainPanel from '@renderer/components/MainPanel'
-import Repository from '@renderer/interfaces/Repository'
-import FileContent from '@renderer/interfaces/FileContent'
+import Repository from '@interface/Repository'
+import FileContent from '@interface/FileContent'
 import './assets/App.css'
 
-import { verifyJwt } from '@renderer/service/user'
+import { verifyJwt } from '@service/user'
 
 interface State {
   windowWidth: number
@@ -70,9 +70,11 @@ class App extends React.Component<object, State> {
     })
   }
 
-  loadReposInfo = (): void => {
-    // fetch(repos)
-  }
+  // loadReposInfo = (): void => {
+  //   // fetch(repos)
+  // }
+
+  
 
   render(): React.ReactNode {
     const { whichUser, whichRepo, whichFile, addRepo } = this
