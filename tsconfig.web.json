@@ -5,15 +5,27 @@
     "src/renderer/src/**/*",
     "src/renderer/src/**/*.tsx",
     "src/preload/*.d.ts",
-    "src/renderer/src/interfaces", "src/renderer/src/service",
+    "src/shared/**/*"
   ],
   "compilerOptions": {
     "composite": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
+      "@main/*": [
+        "src/main/*"
+      ],
+      "@preload/*": [
+        "src/preload/*"
+      ],
       "@renderer/*": [
         "src/renderer/src/*"
+      ],
+      "@interface/*": [
+        "src/shared/interface/*"
+      ],
+      "@service/*": [
+        "src/shared/service/*"
       ]
     }
   }
