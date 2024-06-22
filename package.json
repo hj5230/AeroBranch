@@ -45,10 +45,14 @@
     "electron-vite": "^1.0.27",
     "eslint": "^8.47.0",
     "eslint-plugin-react": "^7.33.2",
+    "husky": "^9.0.11",
     "prettier": "^3.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^5.1.6",
     "vite": "^4.5.2"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "yarn lint"
   }
 }
