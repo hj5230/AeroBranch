@@ -87,7 +87,12 @@ const readConfigData = (dirPath: string): DotaeroConfig => {
     hashedPass: '',
     createTime: -1,
     lastModified: -1,
-    structure: {}
+    structure: {
+      name: 'undefined',
+      size: -1,
+      createTime: new Date(),
+      modifyTime: new Date()
+    }
   }
 }
 
