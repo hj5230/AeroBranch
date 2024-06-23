@@ -1,15 +1,13 @@
 import React from 'react'
-import Navbar from '@renderer/components/Navbar'
-import MainPanel from '@renderer/components/MainPanel'
 import Repository from '@interface/Repository'
 import FileContent from '@interface/FileContent'
-import './assets/App.css'
-
 import { verifyJwt } from '@service/user'
+import Navbar from '@renderer/components/Navbar'
+import MainPanel from '@renderer/components/MainPanel'
+import OperateHub from '@renderer/components/OperateHub'
+import '@renderer/assets/App.css'
 
 interface State {
-  windowWidth: number
-  windowHeight: number
   user: string | null
   repos: Repository[]
   currentRepo: Repository | null
@@ -18,8 +16,6 @@ interface State {
 
 class App extends React.Component<object, State> {
   state: State = {
-    windowWidth: window.innerWidth,
-    windowHeight: window.innerHeight,
     user: null,
     repos: [],
     currentRepo: null,
@@ -27,29 +23,13 @@ class App extends React.Component<object, State> {
   }
 
   componentDidMount = async (): Promise<void> => {
-    const { updateWidth, updateHeight } = this
-    window.addEventListener('resize', updateWidth)
-    window.addEventListener('resize', updateHeight)
-
     const jwt = await verifyJwt()
     if (jwt) {
       this.setState({ user: jwt.username })
     }
   }
 
-  componentWillUnmount = (): void => {
-    const { updateWidth, updateHeight } = this
-    window.removeEventListener('resize', updateWidth)
-    window.removeEventListener('resize', updateHeight)
-  }
-
-  updateWidth = (): void => {
-    this.setState({ windowWidth: window.innerWidth })
-  }
-
-  updateHeight = (): void => {
-    this.setState({ windowHeight: window.innerHeight })
-  }
+  componentWillUnmount = (): void => {}
 
   whichUser = (e: string | null): void => {
     this.setState({ user: e })
@@ -74,13 +54,12 @@ class App extends React.Component<object, State> {
   //   // fetch(repos)
   // }
 
-  
-
   render(): React.ReactNode {
     const { whichUser, whichRepo, whichFile, addRepo } = this
-    const { windowHeight, windowWidth, user, repos, currentRepo, file } = this.state
+    const { user, repos, currentRepo, file } = this.state
     return (
       <>
+        <OperateHub currentRepo={currentRepo} />
         <Navbar
           user={user}
           whichUser={whichUser}
@@ -89,14 +68,7 @@ class App extends React.Component<object, State> {
           whichRepo={whichRepo}
           addRepo={addRepo}
         />
-        <MainPanel
-          repos={repos}
-          file={file}
-          whichFile={whichFile}
-          currentRepo={currentRepo}
-          windowWidth={windowWidth}
-          windowHeight={windowHeight}
-        />
+        <MainPanel repos={repos} file={file} whichFile={whichFile} currentRepo={currentRepo} />
       </>
     )
   }

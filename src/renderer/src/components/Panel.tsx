@@ -1,21 +1,26 @@
-import React, { ReactNode } from 'react'
-import { Row } from 'antd'
+import React, { CSSProperties, ReactNode } from 'react'
+import { Card } from 'antd'
 import style from '@renderer/assets/index.module.less'
 
 interface Props {
-  width?: number | string
-  height?: number | string
-  children?: ReactNode
+  inputStyle?: CSSProperties
+  inputRef?: React.RefObject<HTMLDivElement>
+  children: ReactNode
 }
 
 class Panel extends React.Component<Props, object> {
   render(): React.ReactNode {
-    const { width, height, children } = this.props
+    const { inputStyle, inputRef, children } = this.props
     return (
       <>
-        <Row className={style.display_panel} style={{ width: width, height: height }}>
+        <Card
+          className={style.panel}
+          ref={inputRef}
+          styles={{ body: { padding: 5 } }}
+          style={inputStyle}
+        >
           {children}
-        </Row>
+        </Card>
       </>
     )
   }

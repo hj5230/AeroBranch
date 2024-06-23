@@ -1,9 +1,14 @@
 import React, { ReactNode } from 'react'
-import Panel from './Panel'
 import FileContent from '@interface/FileContent'
+import Repository from '@interface/Repository'
+import Panel from '@renderer/components/Panel'
 
 interface Props {
   file: number | FileContent | null
+}
+
+interface Props {
+  currentRepo: Repository | null
 }
 
 interface State {

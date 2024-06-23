@@ -1,40 +1,95 @@
-html, body, main {
+html,
+body,
+main {
   height: 100%;
+}
+
+.row_content {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.full_btn {
+  width: 100%;
+}
+
+.select_repo_btn {
+  .row_content;
+  .full_btn;
+}
+
+.nav_btn {
+  .row_content;
+  max-width: 5vw;
+  min-width: 10ch;
+}
+
+.nav_col {
+  display: flex;
+}
+
+.nav_col_l {
+  .nav_col;
+  justify-content: flex-start;
+}
+
+.nav_col_r {
+  .nav_col;
+  justify-content: flex-end;
+}
+
+.nav_btn_l {
+  .nav_btn;
+  margin-left: 1vw;
+}
+
+.nav_btn_r {
+  .nav_btn;
+  margin-right: 1vw;
 }
 
 .nav_divider {
   margin: 0;
 }
 
-.page_content {
-  margin: 12px;
+.content {
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 52px);
 }
 
-.display_panel {
+.row {
+  display: flex;
+  flex: 1;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.panel {
+  margin: 5px;
+  padding: 5px;
+  display: flex;
+  flex: 1;
+}
+
+.operate_hub {
+  position: 'absolute';
+  cursor: 'grab';
+  top: 0;
+  left: 0;
+}
+
+.drag-handle {
   width: 100%;
-  height: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.05); // color need to be changed
-  border-radius: 8px;
-  padding: 8px;
-}
-
-.row_content {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-.col_content {
-  margin-left: 5px;
-  margin-right: 5px;
-}
-
-.full_button {
-  width: 100%;
-}
-
-.select_repo_btn {
-  .row_content;
-  .full_button;
+  height: 10px;
+  background: repeating-linear-gradient(45deg, #ccc, #ccc 5px, #fff 5px, #fff 10px);
+  cursor: grab;
 }
 
 .terminal {
@@ -58,4 +113,8 @@ html, body, main {
   font-weight: 600;
   background-color: #26282e;
   caret-color: white;
+}
+
+.search_input {
+  max-height: 2em;
 }

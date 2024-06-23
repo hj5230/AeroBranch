@@ -1,8 +1,8 @@
 import React from 'react'
-import { Row, Col, Button, Popover, Divider, notification } from 'antd'
-import RepoSelector from './RepoSelector'
-import LoginModal from './LoginModal'
 import Repository from '@interface/Repository'
+import { Row, Col, Button, Popover, Divider, notification } from 'antd'
+import RepoSelector from '@renderer/components/RepoSelector'
+import LoginModal from '@renderer/components/LoginModal'
 import style from '@renderer/assets/index.module.less'
 
 interface Props {
@@ -75,17 +75,17 @@ class Navbar extends React.Component<Props, State> {
   userPopover = (
     <>
       <Row>
-        <Button className={style.full_button} type="text">
+        <Button className={style.full_btn} type="text">
           设 置
         </Button>
       </Row>
       <Row>
-        <Button className={style.full_button} type="text">
+        <Button className={style.full_btn} type="text">
           服务器
         </Button>
       </Row>
       <Row>
-        <Button className={style.full_button} type="text" onClick={this.handleSignOut}>
+        <Button className={style.full_btn} type="text" onClick={this.handleSignOut}>
           退 出
         </Button>
       </Row>
@@ -98,17 +98,17 @@ class Navbar extends React.Component<Props, State> {
     const { loginOpen } = this.state
     return (
       <Row>
-        <Col span={8} style={{ textAlign: 'start' }}>
-          <Button className={style.row_content} type="text" onClick={handleSelectLocalDir}>
+        <Col span={8} className={style.nav_col_l}>
+          <Button className={style.nav_btn_l} type="text" onClick={handleSelectLocalDir}>
             本地目录
           </Button>
         </Col>
-        <Col span={8} style={{ textAlign: 'center' }}>
+        <Col span={8} className={style.nav_col}>
           <RepoSelector repos={repos} current={currentRepo} whichRepo={whichRepo} />
         </Col>
-        <Col span={8} style={{ textAlign: 'end' }}>
+        <Col span={8} className={style.nav_col_r}>
           <Popover content={userPopover}>
-            <Button className={style.row_content} type="link" onClick={handleLoginOpen}>
+            <Button className={style.nav_btn_r} type="text" onClick={handleLoginOpen}>
               {user ? user : '登 陆'}
             </Button>
           </Popover>

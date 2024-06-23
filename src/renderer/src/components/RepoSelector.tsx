@@ -1,7 +1,7 @@
 import React from 'react'
+import Repository from '@interface/Repository'
 import { Row, Button, Drawer, Spin, Popover } from 'antd'
 import style from '../assets/index.module.less'
-import Repository from '@interface/Repository'
 
 interface Props {
   current: Repository | null
@@ -52,7 +52,7 @@ class RepoSelector extends React.Component<Props, State> {
               <Row className={style.row_content} key={index}>
                 <Popover content={repo.description} placement="bottom" trigger="hover">
                   <Button
-                    className={style.full_button}
+                    className={style.full_btn}
                     shape="round"
                     value={repo.id}
                     onClick={onSelectRepo}

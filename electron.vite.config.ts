@@ -16,7 +16,7 @@ export default defineConfig({
         '@preload': resolve('src/preload'),
         '@renderer': resolve('src/renderer/src'),
         '@interface': resolve('src/shared/interface'),
-        '@service': resolve('src/shared/service'),
+        '@service': resolve('src/shared/service')
       }
     },
     plugins: [react()],

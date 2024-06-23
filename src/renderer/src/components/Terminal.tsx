@@ -1,5 +1,5 @@
 import React from 'react'
-import Versions from './Versions'
+import Versions from '@renderer/components/Versions'
 import style from '@renderer/assets/index.module.less'
 
 interface Command {
@@ -7,17 +7,14 @@ interface Command {
   output: string
 }
 
-interface Props {
-  windowWidth: number
-  windowHeight: number
-}
+// interface Props {}
 
 interface State {
   inputValue: string
   commandHistory: Command[]
   historyIndex: number
 }
-class Terminal extends React.Component<Props, State> {
+class Terminal extends React.Component<object, State> {
   state: State = {
     inputValue: '',
     commandHistory: [],
@@ -77,13 +74,13 @@ class Terminal extends React.Component<Props, State> {
 
   render(): React.ReactNode {
     const { handleInputChange, handleKeyDown } = this
-    const { windowWidth, windowHeight } = this.props
+    const { innerWidth, innerHeight } = window
     const { commandHistory, inputValue } = this.state
     return (
       <>
         <div
           className={style.terminal}
-          style={{ width: windowWidth * 0.8, height: windowHeight * 0.6 }}
+          style={{ width: innerWidth * 0.8, height: innerHeight * 0.6 }}
         >
           <Versions />
           {commandHistory.map((item, index) => (

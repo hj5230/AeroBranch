@@ -1,7 +1,7 @@
 import React from 'react'
+import type { NotificationPlacement } from 'antd/es/notification/interface'
 import { verifyMacAddress, signIn } from '@service/user'
 import { Modal, Form, Input, Button, Space, Badge, notification } from 'antd'
-import type { NotificationPlacement } from 'antd/es/notification/interface'
 import { LoadingOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons'
 
 const { Item } = Form

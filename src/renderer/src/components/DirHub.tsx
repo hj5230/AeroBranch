@@ -1,19 +1,18 @@
 import React, { Key } from 'react'
 import { Row, Spin, Tree, Input } from 'antd'
 import type { DataNode } from 'antd/es/tree'
-import Panel from './Panel'
+import AntTreeNode, { isDirectory, isFile } from '@interface/AntTreeNode'
 import type { NodeInfo } from '@interface/AntdInterfaces'
 import Repository from '@interface/Repository'
 import TreeNode from '@interface/TreeNode'
-import AntTreeNode, { isDirectory, isFile } from '@interface/AntTreeNode'
 import FileContent from '@interface/FileContent'
+import Panel from '@renderer/components/Panel'
+import Separator from '@renderer/components/Separator'
 import style from '@renderer/assets/index.module.less'
 
 const { DirectoryTree } = Tree
 
 interface Props {
-  windowWidth: number
-  windowHeight: number
   repos: Repository[]
   currentRepo: Repository | null
   whichFile: (e: number | FileContent) => void
@@ -149,22 +148,23 @@ class DirHub extends React.Component<Props, State> {
 
   render(): React.ReactNode {
     const { handleInputChange, handleExpand, handleSelectFile } = this
-    const { windowHeight } = this.props
     const { treeData, search, autoExpandParent, expandedKeys } = this.state
     return (
       <>
         <Panel>
           {treeData ? (
             <>
-              <Row className={style.row_content}>
+              <Row>
                 <Input
+                  className={style.search_input}
                   value={search}
                   size="small"
                   placeholder="搜索文件"
                   onChange={handleInputChange}
                 />
               </Row>
-              <Row className={style.row_content} style={{ height: windowHeight - 170 }}>
+              <Separator />
+              <Row>
                 <DirectoryTree
                   multiple
                   showLine

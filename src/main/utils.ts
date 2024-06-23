@@ -104,6 +104,7 @@ const dotaeroOrInit = (dirPath: string, configData: DotaeroConfig): void => {
   } else {
     config = configData
   }
+  console.log(config)
   fs.writeFileSync(configPath, yaml.dump(config))
 }
 

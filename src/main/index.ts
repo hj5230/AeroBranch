@@ -62,7 +62,9 @@ function createWindow(): void {
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
-    }
+    },
+    minWidth: 880,
+    minHeight: 400
   })
 
   mainWindow.on('ready-to-show', () => {
