@@ -31,7 +31,6 @@ class OperateHub extends React.Component<Props, object> {
     const { currentRepo } = this.props
     const { dotaeroOrInit } = window.api
     if (currentRepo && currentRepo.localPath) {
-      console.log(currentRepo)
       dotaeroOrInit(currentRepo.localPath, {
         userId: -1,
         macAddress: '',

@@ -36,7 +36,6 @@ interface parseJwtResponse {
 
 export const verifyJwt = async (): Promise<parseJwtResponse | null> => {
   const token = window.localStorage.getItem('jwt')
-  // console.log(token)
   if (!token) return null
   const body = (await get(`${baseRoute}/verify`, token)) as unknown as parseJwtResponse
   return body

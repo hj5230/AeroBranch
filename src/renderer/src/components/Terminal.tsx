@@ -28,7 +28,6 @@ class Terminal extends React.Component<object, State> {
   handleCommand = (): void => {
     const { inputValue, commandHistory } = this.state
     if (inputValue === '') return
-    console.log(inputValue)
     const output = `Execute: ${inputValue}`
     // commandHistory.filter((e) => e.command !== inputValue)
     this.setState({
@@ -41,7 +40,6 @@ class Terminal extends React.Component<object, State> {
   handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     const { handleCommand } = this
     const { historyIndex, commandHistory } = this.state
-    console.log(historyIndex)
     if (e.key === 'Enter') {
       e.preventDefault()
       handleCommand()
@@ -51,7 +49,6 @@ class Terminal extends React.Component<object, State> {
         inputValue: commandHistory[commandHistory.length - 1].command
       })
     } else if (e.key === 'ArrowUp' && historyIndex > 0) {
-      console.log(historyIndex)
       this.setState({
         historyIndex: historyIndex - 1,
         inputValue: commandHistory[historyIndex - 1].command

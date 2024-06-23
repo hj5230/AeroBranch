@@ -19,7 +19,6 @@ export const get = async (
   jwt?: string,
   contentType: string = 'application/json'
 ): Promise<object> => {
-  console.log(jwt)
   const response = await fetch(`${REQUEST.protocol}://${REQUEST.server}/${route}`, {
     headers: {
       Authorization: `bearer ${jwt}`,
