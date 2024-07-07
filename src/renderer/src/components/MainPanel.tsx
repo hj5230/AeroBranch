@@ -23,10 +23,10 @@ class MainPanel extends React.Component<Props, object> {
       <>
         <Content className={style.content}>
           <Row className={style.row}>
-            <Col span={4} className={style.col}>
+            <Col span={6} className={style.col}>
               <DirHub repos={repos} currentRepo={currentRepo} whichFile={whichFile} />
             </Col>
-            <Col span={20} className={style.col}>
+            <Col span={18} className={style.col}>
               <FileHub file={file} currentRepo={currentRepo} />
             </Col>
           </Row>
