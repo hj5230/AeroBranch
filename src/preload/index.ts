@@ -1,9 +1,9 @@
 import { ipcRenderer, contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import EnvSchema from '../shared/interface/EnvInterface'
-import TreeNode from '../shared/interface/TreeNode'
-import FileContent from '../shared/interface/FileContent'
-import DotaeroConfig from '../shared/interface/DotaeroConfig'
+import EnvSchema from '@interface/EnvInterface'
+import TreeNode from '@interface/TreeNode'
+import FileContent from '@interface/FileContent'
+import { DotaeroConfig } from '@interface/Dotaero'
 
 // Custom APIs for renderer
 const api = {
@@ -16,8 +16,8 @@ const api = {
   openDirDialog: async (): Promise<TreeNode | null> => {
     return await ipcRenderer.invoke('open-dir-dialog')
   },
-  getDirectoryContent: async (filePath: string): Promise<FileContent> => {
-    return await ipcRenderer.invoke('get-directory-content', filePath)
+  getDirContent: async (filePath: string): Promise<FileContent> => {
+    return await ipcRenderer.invoke('get-dir-content', filePath)
   },
   readConfigData: async (dirPath: string): Promise<DotaeroConfig> => {
     return await ipcRenderer.invoke('read-config-data', dirPath)
@@ -25,9 +25,6 @@ const api = {
   dotaeroOrInit: async (dirPath: string, configData: DotaeroConfig): Promise<void> => {
     return await ipcRenderer.invoke('dotaero-or-init', dirPath, configData)
   }
-  // syncRepository: async (dirPath: string): Promise<object> => {
-  //   return await ipcRenderer.invoke('sync-repository-changes', dirPath)
-  // }
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

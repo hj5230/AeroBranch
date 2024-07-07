@@ -3,17 +3,47 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.webp?asset'
 import dotenv from 'dotenv'
 import { join, resolve } from 'path'
-import { getMacAddress, getDirTree, getDirContent, readConfigData, dotaeroOrInit } from './utils'
-import TreeNode from '../shared/interface/TreeNode'
-import FileContent from '../shared/interface/FileContent'
-import DotaeroConfig from '../shared/interface/DotaeroConfig'
-import EnvSchema from '../shared/interface/EnvInterface'
+import {
+  getMacAddress,
+  getDirTree,
+  getFileContent,
+  readConfigData,
+  dotaeroOrInit,
+  getFiles
+} from './utils'
+import TreeNode from '@interface/TreeNode'
+import FileContent from '@interface/FileContent'
+import { DotaeroConfig } from '@interface/Dotaero'
+import EnvSchema from '@interface/EnvInterface'
+// import store from '@store/index'
 
 dotenv.config({
   path: resolve(__dirname, '../../.env'),
   encoding: 'utf8',
   debug: false
 }).parsed
+
+const initConfig: DotaeroConfig = {
+  userId: -1,
+  macAddress: '',
+  hashedPass: '',
+  createTime: -1,
+  lastModified: -1,
+  structure: {
+    name: '',
+    size: -1,
+    createTime: -1,
+    modifyTime: -1
+  }
+}
+
+const { ENV, SERVER, PROTOCOL } = process.env
+
+const coreMap = new Map<string, unknown>()
+coreMap.set('ENV', ENV ?? 'dev')
+coreMap.set('SERVER', SERVER ?? 'localhost:9999')
+coreMap.set('PROTOCOL', PROTOCOL ?? 'http')
+coreMap.set('CONFIG', initConfig)
 
 ipcMain.handle('get-env-data', async (): Promise<EnvSchema> => {
   return process.env as unknown as EnvSchema
@@ -31,11 +61,12 @@ ipcMain.handle('open-dir-dialog', async (): Promise<TreeNode | null> => {
   else return getDirTree(res.filePaths[0])
 })
 
-ipcMain.handle('get-directory-content', async (_, filePath: string): Promise<FileContent> => {
-  return getDirContent(filePath)
+ipcMain.handle('get-dir-content', async (_, filePath: string): Promise<FileContent> => {
+  return getFileContent(filePath)
 })
 
 ipcMain.handle('read-config-data', async (_, dirPath: string): Promise<DotaeroConfig> => {
+  getFiles(dirPath)
   return readConfigData(dirPath)
 })
 
@@ -46,11 +77,9 @@ ipcMain.handle(
   }
 )
 
-// ipcMain.handle('split-and-encrypt', async () )
-
-// Apart from this, channel for each step within is needed for manual operations via cli
-// ipcMain.handle('sync-repository-changes', async (_, dirPath: string): Promise<object> => {})
-
+/**
+ * Creates the main window of the application.
+ */
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({

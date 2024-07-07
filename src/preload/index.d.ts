@@ -10,10 +10,9 @@ declare global {
       getEnvData: () => Promise<EnvSchema>
       getMacAddress: () => Promise<string>
       openDirDialog: () => Promise<TreeNode | null>
-      getDirectoryContent: (filePath: string) => Promise<FileContent>
+      getDirContent: (filePath: string) => Promise<FileContent>
       readConfigData: (dirPath: string) => Promise<DotaeroConfig>
       dotaeroOrInit: (dirPath: string, configData: DotaeroConfig) => Promise<void>
-      // syncRepository: (dirPath: string) => Promise<object>
     }
   }
 }
