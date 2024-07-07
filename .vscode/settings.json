@@ -1,6 +1,7 @@
 {
-    "editor.rulers": [80, 120],
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "eslint.run": "onType"
+  "editor.rulers": [80, 120],
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.run": "onType",
+  "editor.tabSize": 2
 }
