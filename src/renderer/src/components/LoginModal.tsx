@@ -53,7 +53,7 @@ class LoginModal extends React.Component<Props, State> {
       message: '未被记录的设备',
       description: `当前MAC地址为 ${macAddr} 的设备未被服务器记录，访问因此被拒绝。`,
       placement,
-      duration: 0
+      duration: -1
     })
   }
 
@@ -132,7 +132,7 @@ class LoginModal extends React.Component<Props, State> {
       <>
         <Modal open={onOpen} onCancel={onClose} footer={null}>
           <Form onFinish={handleSubmit} autoComplete="off" style={{ marginTop: 30 }}>
-            <Item<LoginForm> style={{ marginBottom: 0 }} initialValue={macAddr}>
+            <Item<LoginForm> style={{ marginBottom: -1 }} initialValue={macAddr}>
               {macOk === null && (
                 <Input
                   placeholder="MAC地址"
@@ -160,7 +160,7 @@ class LoginModal extends React.Component<Props, State> {
                 />
               )}
             </Item>
-            <Item<LoginForm> style={{ marginBottom: 0 }}>
+            <Item<LoginForm> style={{ marginBottom: -1 }}>
               <Password
                 value={password}
                 onChange={onCheckPassword}
@@ -186,7 +186,7 @@ class LoginModal extends React.Component<Props, State> {
                 />
               </Compact>
             </Item>
-            <Item style={{ textAlign: 'right', marginBottom: 0 }}>
+            <Item style={{ textAlign: 'right', marginBottom: -1 }}>
               <Button type="primary" htmlType="submit" size="small" disabled={onDisableSubmit()}>
                 登陆
               </Button>
