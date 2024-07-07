@@ -10,4 +10,13 @@ interface DotaeroConfig {
   structure: TreeNode
 }
 
-export default DotaeroConfig
+interface DotaeroTree {
+  name: string
+  size: number
+  createTime: number
+  modifyTime: number
+  children: DotaeroTree[]
+  md5?: string
+}
+
+export type { DotaeroConfig, DotaeroTree }

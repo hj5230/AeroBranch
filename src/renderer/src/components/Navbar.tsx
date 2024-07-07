@@ -1,5 +1,7 @@
 import React from 'react'
 import Repository from '@interface/Repository'
+// import { DotaeroConfig } from '@interface/Dotaero'
+// import store from '@store/index'
 import { Row, Col, Button, Popover, Divider, notification } from 'antd'
 import RepoSelector from '@renderer/components/RepoSelector'
 import LoginModal from '@renderer/components/LoginModal'
@@ -43,10 +45,20 @@ class Navbar extends React.Component<Props, State> {
     const { addRepo, whichRepo } = this.props
     const { openDirDialog } = window.api
     const dir = await openDirDialog()
-    if (!dir?.name) return
+    if (!dir || !dir.name) return
     // check if exists on cloud
     // if no update `repos`
     // Confusing logic, select Repo with id since allocated
+
+    // if (dir.base) {
+    //   const config: DotaeroConfig = await readConfigData(dir.base)
+    //   if (config.userId !== -1) {
+    //     store.set('dotaeroConfig', config)
+    //   }
+    // }
+
+    // console.warn(store.get('dotaeroConfig'))
+
     const newLocalRepo = {
       id: Date.now(),
       name: `新的本地仓库 "${dir.name}"`,

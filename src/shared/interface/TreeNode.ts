@@ -1,8 +1,8 @@
 interface TreeNode {
   name: string
   size: number
-  createTime: Date
-  modifyTime: Date
+  createTime: number
+  modifyTime: number
   base?: string
   children?: TreeNode[]
   relative?: string

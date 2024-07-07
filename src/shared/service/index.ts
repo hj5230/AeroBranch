@@ -1,11 +1,4 @@
-// import dotenv from 'dotenv'
 import RESTfulService from '@interface/RESTfulService'
-
-// dotenv.config({
-//   path: '../../../.env',
-//   encoding: 'utf8',
-//   debug: false
-// }).parsed
 
 const REQUEST: RESTfulService = {
   // protocol: process.env.PROTOCOL || 'http',

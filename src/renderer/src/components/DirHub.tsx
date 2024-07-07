@@ -48,15 +48,16 @@ class DirHub extends React.Component<Props, State> {
   }
 
   updateDirTree = (): void => {
+    const { convertToAntDirTree } = this
     const { currentRepo } = this.props
     if (currentRepo?.files) {
-      const treeData = this.convertToAntDirectoryTree(currentRepo.files)
+      const treeData = convertToAntDirTree(currentRepo.files)
       this.setState({ treeData: [treeData] })
     }
   }
 
-  convertToAntDirectoryTree = (node: TreeNode, parentKey: string = ''): AntTreeNode => {
-    const { convertToAntDirectoryTree } = this
+  convertToAntDirTree = (node: TreeNode, parentKey: string = ''): AntTreeNode => {
+    const { convertToAntDirTree } = this
     const baseKey = parentKey ? `${parentKey}-${node.name}` : node.name
     const treeNode: AntTreeNode = {
       title: node.name,
@@ -64,7 +65,7 @@ class DirHub extends React.Component<Props, State> {
     }
     if (isDirectory(node)) {
       treeNode.children = node.children.map((childNode, index) =>
-        convertToAntDirectoryTree(childNode, `${baseKey}-${index}`)
+        convertToAntDirTree(childNode, `${baseKey}-${index}`)
       )
     } else if (isFile(node)) {
       treeNode.isLeaf = true
@@ -132,7 +133,7 @@ class DirHub extends React.Component<Props, State> {
   handleSelectFile = async (_: Key[], info: NodeInfo): Promise<void> => {
     const { findFilePath } = this
     const { currentRepo, whichFile } = this.props
-    const { getDirectoryContent } = window.api
+    const { getDirContent } = window.api
     // only accept leafs(files), and only when title is pure string
     if (
       !info.node.isLeaf ||
@@ -142,7 +143,7 @@ class DirHub extends React.Component<Props, State> {
     )
       return
     const filePath = findFilePath(info.node.title, currentRepo?.files, currentRepo?.localPath)
-    const fileContent = await getDirectoryContent(filePath)
+    const fileContent = await getDirContent(filePath)
     whichFile(fileContent)
   }
 
